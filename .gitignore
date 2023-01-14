@@ -35,3 +35,6 @@ log/
 **/__pycache__/
 **/*.pyc*
 **/*.egg*
+
+# Project dev
+dev/
