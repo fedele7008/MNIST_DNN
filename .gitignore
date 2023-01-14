@@ -1,0 +1,29 @@
+# Mac
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
+# Windows
+Thumbs.db
+
+# WebStorm
+.idea/
+**/.idea/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+
+# VIM
+*~
+
+# General
+log/
+*.log
