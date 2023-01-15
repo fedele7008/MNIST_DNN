@@ -49,12 +49,12 @@ In this project, we have 3 different core components:
 ## <div id="structure">Structure<div>
 ```
 MNIST_DNN/
-├── client/                           # Core: `ClientUI`
+├── client/                           # Core: 'ClientUI'
 │   ├── doc/                          # [ClientUI] Documentation files
 │   └── src/                          # [ClientUI] Source files
 ├── service/
-│   ├── api/                          # Core: `API-Server`
-│   ├── dnn/                          # Core: `MNIST-DNN`
+│   ├── api/                          # Core: 'API-Server'
+│   ├── dnn/                          # Core: 'MNIST-DNN'
 │   └── tests/                        # unit test suites
 ├── dev/                              # Local development configs
 │   └── mnist-dnn-venv/               # Virtual Envirnoment for `API-Server` and `MNIST-DNN`
