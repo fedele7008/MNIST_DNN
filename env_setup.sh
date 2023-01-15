@@ -69,21 +69,21 @@ else
         PIP_FOUND="False"
 
         if [ ${PIP_FOUND} = "False" ] && [ ${PIP3_INSTALLED} -eq 0 ] && [ ${PYTHON3_INSTALLED} -eq 0 ]; then
-            PIP_LOCK="$(which pip3)"
-            ${PIP_LOCK} --version 1> /dev/null 2> /dev/null
+            PIP_LOC="$(which pip3)"
+            ${PIP_LOC} --version 1> /dev/null 2> /dev/null
             
             if [ ${?} -eq 0 ]; then
-                PYTHON_LOCK="$(which python3)"
+                PYTHON_LOC="$(which python3)"
                 PIP_FOUND="True"
             fi
         fi
 
         if [ ${PIP_FOUND} = "False" ] && [ ${PIP_INSTALLED} -eq 0 ] && [ ${PYTHON_INSTALLED} -eq 0 ]; then
-            PIP_LOCK="$(which pip)"
-            ${PIP_LOCK} --version 1> /dev/null 2> /dev/null
+            PIP_LOC="$(which pip)"
+            ${PIP_LOC} --version 1> /dev/null 2> /dev/null
 
             if [ ${?} -eq 0 ]; then
-                PYTHON_LOCK="$(which python)"
+                PYTHON_LOC="$(which python)"
                 PIP_FOUND="True"
             fi
         fi
@@ -97,31 +97,31 @@ else
             echo "Done"
 
             # Install virtualenv
-            ${PIP_LOCK} list | egrep "virtualenv" 1> /dev/null 2> /dev/null
+            ${PIP_LOC} list | egrep "virtualenv" 1> /dev/null 2> /dev/null
             if [ ${?} -eq 1 ]; then
                 echo "Start installing 'virtualenv'..."
-                ${PIP_LOCK} install virtualenv
+                ${PIP_LOC} install virtualenv
             fi
 
             # Initiate venv
-            ${PYTHON_LOCK} -m venv dev/mnist-dnn-venv
+            ${PYTHON_LOC} -m venv dev/mnist-dnn-venv
 
             # Activate venv
             source dev/mnist-dnn-venv/bin/activate
 
-            VENV_PIP_LOCK="$(which pip)"
+            VENV_PIP_LOC="$(which pip)"
 
             echo "Installing required packages..."
             echo "=========================================="
             # Install required files
-            ${VENV_PIP_LOCK} install -r service/requirements.txt
+            ${VENV_PIP_LOC} install -r service/requirements.txt
             echo "=========================================="
             echo "Done"
 
             echo "Setup complete."
             echo ""
             echo "Installed packages:"
-            ${VENV_PIP_LOCK} list
+            ${VENV_PIP_LOC} list
 
             echo ""
             echo "To activate the virtual environment, run:"
