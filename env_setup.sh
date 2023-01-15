@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# @ VERSION   0.1.0
+# @ AUTHOR    John Yoon
+# @ LICENSE   MIT
+#     
+#   For initial setup, run "source env_setup.sh" (Mac/Linux only) to create virtual environment for MNIST_DNN Python
+#   If there's any issues, please contact John Yoon <fedelejohn7008@gmail.com>
 
 CLEAR="False"
 HELP="False"
@@ -105,10 +111,25 @@ else
 
             VENV_PIP_LOCK="$(which pip)"
 
-            echo -n "Installing required libraries..."
+            echo "Installing required packages..."
+            echo "=========================================="
             # Install required files
             ${VENV_PIP_LOCK} install -r service/requirements.txt
+            echo "=========================================="
             echo "Done"
+
+            echo "Setup complete."
+            echo ""
+            echo "Installed packages:"
+            ${VENV_PIP_LOCK} list
+
+            echo ""
+            echo "To activate the virtual environment, run:"
+            echo "  source dev/mnist-dnn-venv/bin/activate"
+            echo "To deactivate the virtual environment, run:"
+            echo "  deactivate"
+            echo ""
+            echo "NOTE: Python project should be run while virtual environment is activated."
 
             # Deactivate venv
             deactivate
