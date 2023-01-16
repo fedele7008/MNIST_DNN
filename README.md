@@ -107,3 +107,4 @@ Then open the client for use.
 
 #### Resources
 * Project Structure [[link](https://www.holaxprogramming.com/2017/06/28/python-project-structures/)]
+* ASCII Art [[link](http://paulbourke.net/dataformats/asciiart/)]
