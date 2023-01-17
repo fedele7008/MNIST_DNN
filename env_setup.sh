@@ -138,11 +138,12 @@ else
 
                 echo "Installed packages:"
                 ${VENV_PIP_LOC} list
+                echo "=========================================="
 
                 # Deactivate out from venv
                 deactivate
 
-                echo -n "Creating MNIST_DNN environment"
+                echo -n "Creating MNIST_DNN environment..."
 
                 # Initiate venv for MNIST_DNN packages
                 ${PYTHON_LOC} -m venv dev/mnist-dnn-venv
@@ -163,11 +164,12 @@ else
 
                 echo "Installed packages:"
                 ${VENV_PIP_LOC} list
+                echo "=========================================="
 
                 # Deactivate out from venv
                 deactivate
 
-                echo -n "Creating MNIST_DNN_API environment"
+                echo -n "Creating MNIST_DNN_API environment..."
 
                 # Initiate venv for MNIST_DNN_API packages
                 ${PYTHON_LOC} -m venv dev/mnist-dnn-api-venv
@@ -190,10 +192,12 @@ else
 
                 echo "Installed packages:"
                 ${VENV_PIP_LOC} list
+                echo "=========================================="
 
                 # Deactivate venv
                 deactivate
 
+                echo ""
                 echo "Setup complete."
                 echo ""
                 echo "To activate the virtual environment, run:"
