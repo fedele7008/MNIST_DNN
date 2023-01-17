@@ -67,7 +67,7 @@ if __name__=='__main__':
         print(f"value: {y_train_data[i]}")
 
         from dnn.utils.tools.display import show_img
-        show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
         show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='ascii')
         show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
+        show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
         
