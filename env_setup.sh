@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# @ VERSION   0.1.0
+# @ VERSION   0.1.1
 # @ AUTHOR    John Yoon
 # @ LICENSE   MIT
 #     
 #   For initial setup, run "source env_setup.sh" (Mac/Linux only) to create virtual environment for MNIST_DNN Python
 #   If there's any issues, please contact John Yoon <fedelejohn7008@gmail.com>
 
-VERSION="0.1.0"
+VERSION="0.1.1"
 CLEAR="False"
 HELP="False"
 EXIT="False"
@@ -114,8 +114,40 @@ else
                     ${PIP_LOC} install virtualenv
                 fi
 
-                # Initiate venv
+                echo -n "Creating publish environment..."
+
+                # Initiate venv for publishing packages
+                ${PYTHON_LOC} -m venv dev/publish-venv
+
+                echo "Done"
+
+                # Activate venv
+                source dev/publish-venv/bin/activate
+
+                VENV_PIP_LOC="$(which pip)"
+
+                echo "Installing required packages..."
+                echo "=========================================="
+                # Install publish-purpose packages
+                ${VENV_PIP_LOC} install setuptools==65.5.0
+                ${VENV_PIP_LOC} install wheel==0.38.4
+                ${VENV_PIP_LOC} install build==0.10.0
+                ${VENV_PIP_LOC} install twine==4.0.2
+                echo "=========================================="
+                echo "Done"
+
+                echo "Installed packages:"
+                ${VENV_PIP_LOC} list
+
+                # Deactivate out from venv
+                deactivate
+
+                echo -n "Creating MNIST_DNN environment"
+
+                # Initiate venv for MNIST_DNN packages
                 ${PYTHON_LOC} -m venv dev/mnist-dnn-venv
+
+                echo "Done"
 
                 # Activate venv
                 source dev/mnist-dnn-venv/bin/activate
@@ -125,25 +157,56 @@ else
                 echo "Installing required packages..."
                 echo "=========================================="
                 # Install required files
-                ${VENV_PIP_LOC} install -r service/requirements.txt
+                ${VENV_PIP_LOC} install -r packages/dnn/requirements.txt
                 echo "=========================================="
                 echo "Done"
 
-                echo "Setup complete."
-                echo ""
                 echo "Installed packages:"
                 ${VENV_PIP_LOC} list
 
-                echo ""
-                echo "To activate the virtual environment, run:"
-                echo "  source dev/mnist-dnn-venv/bin/activate"
-                echo "To deactivate the virtual environment, run:"
-                echo "  deactivate"
-                echo ""
-                echo "NOTE: Python project should be run while virtual environment is activated."
+                # Deactivate out from venv
+                deactivate
+
+                echo -n "Creating MNIST_DNN_API environment"
+
+                # Initiate venv for MNIST_DNN_API packages
+                ${PYTHON_LOC} -m venv dev/mnist-dnn-api-venv
+
+                echo "Done"
+
+                # Activate venv
+                source dev/mnist-dnn-api-venv/bin/activate
+
+                VENV_PIP_LOC="$(which pip)"
+
+                echo "Installing required packages..."
+                echo "=========================================="
+                # Install required files
+                ${VENV_PIP_LOC} install -r packages/api/requirements.txt
+                ${VENV_PIP_LOC} install mnist-dnn
+                ${VENV_PIP_LOC} install -U mnist-dnn
+                echo "=========================================="
+                echo "Done"
+
+                echo "Installed packages:"
+                ${VENV_PIP_LOC} list
 
                 # Deactivate venv
                 deactivate
+
+                echo "Setup complete."
+                echo ""
+                echo "To activate the virtual environment, run:"
+                echo "  source dev/<option>/bin/activate"
+                echo "To deactivate the virtual environment, run:"
+                echo "  deactivate"
+                echo ""
+                echo "options:"
+                echo "  * publish-venv (use for publishing a new update)"
+                echo "  * mnist-dnn-venv (use for developing MNIST_DNN)"
+                echo "  * mnist-dnn-api-venv (use for developing MNIST_DNN_API)"
+                echo ""
+                echo "NOTE: Python project should be run while virtual environment is activated."
 
                 touch dev/.${VERSION}
             fi
@@ -151,17 +214,16 @@ else
     else 
         echo "Venv setup is already completed, to refresh setup, run \"source env_setup.sh -refresh\""
         echo ""
-        echo "Installed packages:"
-        source dev/mnist-dnn-venv/bin/activate
-        VENV_PIP_LOC="$(which pip)"
-        ${VENV_PIP_LOC} list
-        echo ""
         echo "To activate the virtual environment, run:"
-        echo "  source dev/mnist-dnn-venv/bin/activate"
+        echo "  source dev/<option>/bin/activate"
         echo "To deactivate the virtual environment, run:"
         echo "  deactivate"
         echo ""
+        echo "options:"
+        echo "  * publish-venv (use for publishing a new update)"
+        echo "  * mnist-dnn-venv (use for developing MNIST_DNN)"
+        echo "  * mnist-dnn-api-venv (use for developing MNIST_DNN_API)"
+        echo ""
         echo "NOTE: Python project should be run while virtual environment is activated."
-        deactivate
     fi
 fi

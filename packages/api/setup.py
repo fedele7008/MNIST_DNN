@@ -12,11 +12,11 @@ def requirements():
     return requirements
 
 setuptools.setup(
-    name='mnist-dnn',
-    version='0.1.1a6',
+    name='mnist-dnn-api',
+    version='0.1.0a1',
     author='John Yoon',
     author_email='fedelejohn7008@gmail.com',
-    description='Deep Neural Network from Scratch with MNIST dataset',
+    description='API Server for MNIST_DNN package',
     long_description=long_description(),
     long_description_content_type='text/markdown',
     url='https://github.com/fedele7008/MNIST_DNN',
