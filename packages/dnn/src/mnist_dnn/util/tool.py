@@ -1,9 +1,9 @@
-import numpy as np
-import math
-
 """
 Primary purpose of this module is to provide tools to aid development.
 """
+
+import numpy as np
+import math
 
 class Display():
     """

@@ -1,11 +1,11 @@
-from importlib.resources import files
-import numpy as np
-import pandas as pd
-
 """ 
 Primary purpose for this module is to load MNIST dataset ready to be used for 
   DNN training and testing.
 """
+
+from importlib.resources import files
+import numpy as np
+import pandas as pd
 
 class MNIST():
     """
