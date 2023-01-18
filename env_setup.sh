@@ -221,11 +221,20 @@ echo "Done"
 source dev/mnist-dnn-venv/bin/activate
 
 VENV_PIP_LOC="$(which pip)"
+VENV_PYTHON_LOC="$(which python)"
 
 echo "Installing required packages..."
 echo "=========================================="
 # Install required files
 ${VENV_PIP_LOC} install -r packages/dnn/requirements.txt
+echo "=========================================="
+echo "Done"
+
+echo "Linking project to site-package..."
+echo "=========================================="
+cd packages/dnn
+${VENV_PYTHON_LOC} setup.py develop
+cd ../../
 echo "=========================================="
 echo "Done"
 
@@ -247,6 +256,7 @@ echo "Done"
 source dev/mnist-dnn-api-venv/bin/activate
 
 VENV_PIP_LOC="$(which pip)"
+VENV_PYTHON_LOC="$(which python)"
 
 echo "Installing required packages..."
 echo "=========================================="
@@ -254,6 +264,14 @@ echo "=========================================="
 ${VENV_PIP_LOC} install -r packages/api/requirements.txt
 ${VENV_PIP_LOC} install mnist-dnn
 ${VENV_PIP_LOC} install -U mnist-dnn
+echo "=========================================="
+echo "Done"
+
+echo "Linking project to site-package..."
+echo "=========================================="
+cd packages/api
+${VENV_PYTHON_LOC} setup.py develop
+cd ../../
 echo "=========================================="
 echo "Done"
 
