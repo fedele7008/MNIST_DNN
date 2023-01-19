@@ -13,7 +13,7 @@ def requirements():
 
 setuptools.setup(
     name='mnist-dnn-api',
-    version='0.1.0a1',
+    version='0.1.0a0',
     author='John Yoon',
     author_email='fedelejohn7008@gmail.com',
     description='API Server for MNIST_DNN package',
