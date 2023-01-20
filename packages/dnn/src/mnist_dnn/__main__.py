@@ -7,5 +7,6 @@ from mnist_dnn.util.tool import Display
 for i in range(10):
     print(f"value: {y_train_data[i]}")
     #Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='ascii')
-    #Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
-    Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
+    Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
+    #Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
+
