@@ -66,4 +66,3 @@ class Display():
             plot.gray()
             plot.imshow(img, interpolation='nearest')
             plot.show()
-

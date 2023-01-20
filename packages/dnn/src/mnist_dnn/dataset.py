@@ -72,15 +72,3 @@ class MNIST():
         x_train_data = x_train_data.astype(np.float64) / 255
 
         return ((x_train_data, y_train_data), (x_test_data, y_test_data))
-
-# TODO: remove this main afterward (used for test purposes)
-if __name__=='__main__':
-    (x_train_data, y_train_data), (x_test_data, y_test_data) = MNIST.load_data()
-    for i in range(10):
-        print(f"value: {y_train_data[i]}")
-
-        from mnist_dnn.util.tool import Display
-        Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='ascii')
-        Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
-        Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
-        
