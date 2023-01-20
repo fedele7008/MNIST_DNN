@@ -31,7 +31,7 @@
 | Name | E-mail | LinkedIn |
 | :--- | :---: | :---: |
 | John Yoon | <a href="mailto:fedelejohn7008@gmail.com" target="_blank"><img src="https://img.shields.io/badge/Email-fedelejohn7008@gmail.com-FFFFFF?style=flat&logo=Gmail&logoColor=EA4335"/></a> | <a href="https://www.linkedin.com/in/john-yoon-33b8771a8/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-John Yoon-FFFFFF?style=flat&logo=LinkedIn&logoColor=0A66C2"/></a> |
-| Joon Kim | N/A | N/A |
+| Joon Kim | <a href="mailto:kimsjoon14@gmail.com" target="_blank"><img src="https://img.shields.io/badge/Email-kimsjoon14@gmail.com-FFFFFF?style=flat&logo=Gmail&logoColor=EA4335"/></a> | <a href="https://www.linkedin.com/in/joonkim14/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-Joon Kim-FFFFFF?style=flat&logo=LinkedIn&logoColor=0A66C2"/></a> |
 
 ## <div id="about">About</div>
 MNIST_DNN Stands for "MNIST Dataset Deep Neural Network" Project. \
