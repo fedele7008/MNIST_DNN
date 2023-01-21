@@ -1,7 +1,7 @@
 <h1 align="center">
-  <br>
-    <a href="#"><img src="doc/assets/mnist-dnn-media/logo_transparent.png" /></a>
-  <br>
+    <a href="#">
+      <img src="doc/assets/mnist-dnn-media/twitter_header_photo_2.png" />
+    </a>
 </h1>
 
 <p align="center">
