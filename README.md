@@ -1,6 +1,6 @@
 <h1 align="center">
     <a href="#">
-      <img src="doc/assets/mnist-dnn-media/twitter_header_photo_2.png" />
+      <img src="doc/assets/mnist-dnn-media/MNIST_DNN_Banner.png" />
     </a>
 </h1>
 
