@@ -85,6 +85,6 @@ The project uses following packages:
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # <div id="donate">Donate</div>
-<a href="buymeacoffee.com/j53yoon" target="_blank">
+<a href="https://www.buymeacoffee.com/j53yoon" target="_blank">
   <img src="doc/assets/buy-us-a-coffee-please.png" alt="Buy us a coffee... please" style="height: 41px !important; !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" />
 </a>
