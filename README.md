@@ -42,7 +42,7 @@ The MNIST DNN Project was started to give us the opportinuity to create our own 
 
 Ultimately, our goal is to gain a deeper understanding of machine learning and to gain experience with various techniques, not just those related to machine learning. (i.e. REST API, Web application, package deployment, etc.)
 
-<h2>John Yoon</h2>
+<h3>John Yoon</h3>
 <a href="mailto:fedelejohn7008@gmail.com" target="_blank">
   <img style="padding-left:5px" src="https://img.shields.io/badge/Email-fedelejohn7008@gmail.com-red?style=flat-square&logo=Gmail&logoColor=EA4335"/>
 </a>
@@ -52,7 +52,7 @@ Ultimately, our goal is to gain a deeper understanding of machine learning and t
 
 > University of Waterloo | Computer Science 3B Co-op 
 
-<h2>Joon Kim</h2>
+<h3>Joon Kim</h3>
 <a href="mailto:kimsjoon14@gmail.com" target="_blank">
   <img src="https://img.shields.io/badge/Email-kimsjoon14@gmail.com-red?style=flat-square&logo=Gmail&logoColor=EA4335"/>
 </a>
