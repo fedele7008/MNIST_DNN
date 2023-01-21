@@ -44,20 +44,20 @@ Ultimately, our goal is to gain a deeper understanding of machine learning and t
 
 <h2>John Yoon</h2>
 <a href="mailto:fedelejohn7008@gmail.com" target="_blank">
-  <img style="padding-left:5px" src="https://img.shields.io/badge/Email-fedelejohn7008@gmail.com-FFFFFF?style=flat-square&logo=Gmail&logoColor=EA4335"/>
+  <img style="padding-left:5px" src="https://img.shields.io/badge/Email-fedelejohn7008@gmail.com-red?style=flat-square&logo=Gmail&logoColor=EA4335"/>
 </a>
 <a href="https://www.linkedin.com/in/john-yoon-33b8771a8/" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-John Yoon-FFFFFF?style=flat-square&logo=LinkedIn&logoColor=0A66C2"/>
+  <img src="https://img.shields.io/badge/LinkedIn-John Yoon-blue?style=flat-square&logo=LinkedIn&logoColor=0A66C2"/>
 </a>
 
 > University of Waterloo | Computer Science 3B Co-op 
 
 <h2>Joon Kim</h2>
 <a href="mailto:kimsjoon14@gmail.com" target="_blank">
-  <img src="https://img.shields.io/badge/Email-kimsjoon14@gmail.com-FFFFFF?style=flat-square&logo=Gmail&logoColor=EA4335"/>
+  <img src="https://img.shields.io/badge/Email-kimsjoon14@gmail.com-red?style=flat-square&logo=Gmail&logoColor=EA4335"/>
 </a>
 <a href="https://www.linkedin.com/in/joonkim14/" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-Joon Kim-FFFFFF?style=flat-square&logo=LinkedIn&logoColor=0A66C2"/>
+  <img src="https://img.shields.io/badge/LinkedIn-Joon Kim-blue?style=flat-square&logo=LinkedIn&logoColor=0A66C2"/>
 </a>
 
 > University of Waterloo | TBU
@@ -85,4 +85,6 @@ The project uses following packages:
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # <div id="donate">Donate</div>
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="j53yoon" data-color="#5F7FFF" data-emoji=""  data-font="Comic" data-text="Buy us a coffee....pleeeeese" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
+<a href="buymeacoffee.com/j53yoon" target="_blank">
+  <img src="doc/assets/buy-us-a-coffee-please.png" alt="Buy us a coffee... please" style="height: 41px !important; !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" />
+</a>
