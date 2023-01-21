@@ -8,9 +8,16 @@ import math
 class Display():
     """
     Display class is used to debug dataset, especially to display the image on
-      screen either through Graphics or Command Line Interface.
+        screen either through Graphics or Command Line Interface.
+
+    Static Attributes:
+        * _GREYSCALE_MODE: dictionary of ascii characters that maps to greyscale
+            image.
+
+    Class Attributes:
+        <No class attributes>
     """
-        
+    
     _GREYSCALE_MODE = {
         'ascii': [' ', '.', "'", '`', '^', '"', ',', ':', ';', 'I', 'l', '!', 'i', 
                 '>', '<', '~', '+', '_', '-', '?', ']', '[', '}', '{', '1', ')',
@@ -32,13 +39,13 @@ class Display():
             * 0 <= image[i] <= 255, for every i
 
         Args:
-            image: 1D numpy vector object with dimension of 784
-            is_normalized (Default: True): determine if given input image is 
-            normalized value or greyscaled
-            display_mode (Default: 'graphic'): chooses how image will be displayed
-            * 'graphic': use pyplot library to display fancy gui plot
-            * 'ascii': create ascii display available for CLI
-            * 'simple-ascii': create simple ascii display available for CLI
+            * image: 1D numpy vector object with dimension of 784
+            * is_normalized (Default: True): determine if given input image is 
+                normalized value or greyscaled
+            * display_mode (Default: 'graphic'): chooses how image will be displayed
+                * 'graphic': use pyplot library to display fancy gui plot
+                * 'ascii': create ascii display available for CLI
+                * 'simple-ascii': create simple ascii display available for CLI
 
         Return:
             <No return value>

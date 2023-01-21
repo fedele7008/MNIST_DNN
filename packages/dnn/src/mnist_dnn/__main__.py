@@ -4,9 +4,12 @@ from mnist_dnn.model import *
 from mnist_dnn.util.tool import Display
 
 (x_train_data, y_train_data), (x_test_data, y_test_data) = MNIST.load_data()
+
+print(f"train data size: {x_train_data.shape[1]}")
+print(f"test data size: {x_test_data.shape[1]}")
+
 for i in range(10):
     print(f"value: {y_train_data[i]}")
-    #Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='ascii')
-    Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
-    #Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
-
+    # Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='ascii')
+    # Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='simple-ascii')
+    Display.show_img(x_train_data[:, int(i)], is_normalized=True, display_mode='graphic')
