@@ -1,3 +1,6 @@
+### OUT DATED ###
+### README.md in process ###
+
 <p align="center">
   <H1 align="center">MNIST DNN</H1>
   <H3 align="center">MNIST Deep Neural Network from Scratch</H3>
