@@ -234,11 +234,11 @@ echo "Done"
 if [ ${WINDOWS} = "True" ]; then
     source dev/mnist-dnn-venv/Scripts/activate
     VENV_PIP_LOC="./dev/mnist-dnn-venv/Scripts/pip"
-    VENV_PYTHON_LOC="./dev/mnist-dnn-venv/Scripts/python"
+    VENV_PYTHON_LOC="../../dev/mnist-dnn-venv/Scripts/python"
 else
     source dev/mnist-dnn-venv/bin/activate
     VENV_PIP_LOC="./dev/mnist-dnn-venv/bin/pip"
-    VENV_PYTHON_LOC="./dev/mnist-dnn-venv/bin/python"
+    VENV_PYTHON_LOC="../../dev/mnist-dnn-venv/bin/python"
 fi
 
 echo "Installing required packages..."
@@ -274,11 +274,11 @@ echo "Done"
 if [ ${WINDOWS} = "True" ]; then
     source dev/mnist-dnn-api-venv/Scripts/activate
     VENV_PIP_LOC="./dev/mnist-dnn-api-venv/Scripts/pip"
-    VENV_PYTHON_LOC="./dev/mnist-dnn-api-venv/Scripts/python"
+    VENV_PYTHON_LOC="../../dev/mnist-dnn-api-venv/Scripts/python"
 else
     source dev/mnist-dnn-api-venv/bin/activate
     VENV_PIP_LOC="./dev/mnist-dnn-api-venv/bin/pip"
-    VENV_PYTHON_LOC="./dev/mnist-dnn-api-venv/bin/python"
+    VENV_PYTHON_LOC="../../dev/mnist-dnn-api-venv/bin/python"
 fi
 
 echo "Installing required packages..."
