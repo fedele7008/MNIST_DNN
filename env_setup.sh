@@ -13,10 +13,16 @@ CLEAR="False"
 HELP="False"
 REFRESH="False"
 SETTINGS_FILE="settings.txt"
+WINDOWS="False"
 
-if [ ${1} = "-windows" ] || [ ${1} = "--windows" ]; then
-    shift 1
-else
+if [ ${#} -gt 0 ]; then
+    if [ ${1} = "-windows" ] || [ ${1} = "--windows" ]; then
+        shift 1
+        WINDOWS="True"
+    fi
+fi
+
+if [ ${WINDOWS} = "False" ]; then
     is_sourced() {
         if [ -n "$ZSH_VERSION" ]; then 
             case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
@@ -33,6 +39,7 @@ else
         return 1 2> /dev/null; exit 1
     fi
 fi
+
 
 general_inst () {
     echo "To activate the virtual environment, run:"
