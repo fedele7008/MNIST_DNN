@@ -200,7 +200,7 @@ echo "Done"
 
 if [ ${WINDOWS} = "True" ]; then
     source dev/publish-venv/Scripts/activate
-    VENV_PIP_LOC="./dev/publish-venv/Script/pip"
+    VENV_PIP_LOC="./dev/publish-venv/Scripts/pip"
 else
     source dev/publish-venv/bin/activate
     VENV_PIP_LOC="./dev/publish-venv/bin/pip"
