@@ -199,12 +199,12 @@ echo "Done"
 # Activate venv
 
 if [ ${WINDOWS} = "True" ]; then
-    source dev/publish-venv/Script/activate
+    source dev/publish-venv/Scripts/activate
 else
     source dev/publish-venv/bin/activate
 fi
 
-VENV_PIP_LOC="$(which pip)"
+VENV_PIP_LOC="./"
 
 echo "Installing required packages..."
 echo "=========================================="
@@ -232,7 +232,7 @@ echo "Done"
 
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
-    source dev/mnist-dnn-venv/Script/activate
+    source dev/mnist-dnn-venv/Scripts/activate
 else
     source dev/mnist-dnn-venv/bin/activate
 fi
@@ -271,7 +271,7 @@ echo "Done"
 
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
-    source dev/mnist-dnn-api-venv/Script/activate
+    source dev/mnist-dnn-api-venv/Scripts/activate
 else
     source dev/mnist-dnn-api-venv/bin/activate
 fi
