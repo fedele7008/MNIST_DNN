@@ -22,24 +22,21 @@ if [ ${#} -gt 0 ]; then
     fi
 fi
 
-if [ ${WINDOWS} = "False" ]; then
-    is_sourced() {
-        if [ -n "$ZSH_VERSION" ]; then 
-            case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
-        else # Add additional POSIX-compatible shell names here, if needed.
-            case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
-        fi
-        return 1  # NOT sourced.
-    }
-
-    (return 0 2>/dev/null) && sourced=1 || sourced=0
-    if [ ${sourced} -eq 0 ]; then
-        echo "Script is not sourced, please run \"source env_setup.sh\" instead."
-        echo "For more information, please check \"source env_setup.sh -help\" for usage."
-        return 1 2> /dev/null; exit 1
+is_sourced() {
+    if [ -n "$ZSH_VERSION" ]; then 
+        case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+    else # Add additional POSIX-compatible shell names here, if needed.
+        case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
     fi
-fi
+    return 1  # NOT sourced.
+}
 
+(return 0 2>/dev/null) && sourced=1 || sourced=0
+if [ ${sourced} -eq 0 ]; then
+    echo "Script is not sourced, please run \"source env_setup.sh\" instead."
+    echo "For more information, please check \"source env_setup.sh -help\" for usage."
+    return 1 2> /dev/null; exit 1
+fi
 
 general_inst () {
     echo "To activate the virtual environment, run:"
@@ -200,7 +197,12 @@ ${PYTHON_LOC} -m venv dev/publish-venv
 echo "Done"
 
 # Activate venv
-source dev/publish-venv/bin/activate
+
+if [ ${WINDOWS} = "True" ]; then
+    source dev/publish-venv/Script/activate
+else
+    source dev/publish-venv/bin/activate
+fi
 
 VENV_PIP_LOC="$(which pip)"
 
@@ -229,7 +231,11 @@ ${PYTHON_LOC} -m venv dev/mnist-dnn-venv
 echo "Done"
 
 # Activate venv
-source dev/mnist-dnn-venv/bin/activate
+if [ ${WINDOWS} = "True" ]; then
+    source dev/mnist-dnn-venv/Script/activate
+else
+    source dev/mnist-dnn-venv/bin/activate
+fi
 
 VENV_PIP_LOC="$(which pip)"
 VENV_PYTHON_LOC="$(which python)"
@@ -264,7 +270,11 @@ ${PYTHON_LOC} -m venv dev/mnist-dnn-api-venv
 echo "Done"
 
 # Activate venv
-source dev/mnist-dnn-api-venv/bin/activate
+if [ ${WINDOWS} = "True" ]; then
+    source dev/mnist-dnn-api-venv/Script/activate
+else
+    source dev/mnist-dnn-api-venv/bin/activate
+fi
 
 VENV_PIP_LOC="$(which pip)"
 VENV_PYTHON_LOC="$(which python)"
