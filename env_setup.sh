@@ -200,11 +200,11 @@ echo "Done"
 
 if [ ${WINDOWS} = "True" ]; then
     source dev/publish-venv/Scripts/activate
+    VENV_PIP_LOC="./dev/publish-venv/Script/pip"
 else
     source dev/publish-venv/bin/activate
+    VENV_PIP_LOC="./dev/publish-venv/bin/pip"
 fi
-
-VENV_PIP_LOC="./"
 
 echo "Installing required packages..."
 echo "=========================================="
@@ -233,12 +233,13 @@ echo "Done"
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
     source dev/mnist-dnn-venv/Scripts/activate
+    VENV_PIP_LOC="./dev/mnist-dnn-venv/Scripts/pip"
+    VENV_PYTHON_LOC="./dev/mnist-dnn-venv/Scripts/python"
 else
     source dev/mnist-dnn-venv/bin/activate
+    VENV_PIP_LOC="./dev/mnist-dnn-venv/bin/pip"
+    VENV_PYTHON_LOC="./dev/mnist-dnn-venv/bin/python"
 fi
-
-VENV_PIP_LOC="$(which pip)"
-VENV_PYTHON_LOC="$(which python)"
 
 echo "Installing required packages..."
 echo "=========================================="
@@ -272,12 +273,13 @@ echo "Done"
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
     source dev/mnist-dnn-api-venv/Scripts/activate
+    VENV_PIP_LOC="./dev/mnist-dnn-api-venv/Scripts/pip"
+    VENV_PYTHON_LOC="./dev/mnist-dnn-api-venv/Scripts/python"
 else
     source dev/mnist-dnn-api-venv/bin/activate
+    VENV_PIP_LOC="./dev/mnist-dnn-api-venv/bin/pip"
+    VENV_PYTHON_LOC="./dev/mnist-dnn-api-venv/bin/python"
 fi
-
-VENV_PIP_LOC="$(which pip)"
-VENV_PYTHON_LOC="$(which python)"
 
 echo "Installing required packages..."
 echo "=========================================="
