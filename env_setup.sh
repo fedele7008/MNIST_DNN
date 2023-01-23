@@ -14,20 +14,24 @@ HELP="False"
 REFRESH="False"
 SETTINGS_FILE="settings.txt"
 
-is_sourced() {
-    if [ -n "$ZSH_VERSION" ]; then 
-        case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
-    else # Add additional POSIX-compatible shell names here, if needed.
-        case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
-    fi
-    return 1  # NOT sourced.
-}
+if [ ${1} = "-windows" ] || [ ${1} = "--windows" ]; then
+    shift 1
+else
+    is_sourced() {
+        if [ -n "$ZSH_VERSION" ]; then 
+            case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+        else # Add additional POSIX-compatible shell names here, if needed.
+            case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
+        fi
+        return 1  # NOT sourced.
+    }
 
-(return 0 2>/dev/null) && sourced=1 || sourced=0
-if [ ${sourced} -eq 0 ]; then
-    echo "Script is not sourced, please run \"source env_setup.sh\" instead."
-    echo "For more information, please check \"source env_setup.sh -help\" for usage."
-    return 1 2> /dev/null; exit 1
+    (return 0 2>/dev/null) && sourced=1 || sourced=0
+    if [ ${sourced} -eq 0 ]; then
+        echo "Script is not sourced, please run \"source env_setup.sh\" instead."
+        echo "For more information, please check \"source env_setup.sh -help\" for usage."
+        return 1 2> /dev/null; exit 1
+    fi
 fi
 
 general_inst () {
