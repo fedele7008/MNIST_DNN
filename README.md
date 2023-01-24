@@ -52,16 +52,6 @@ Ultimately, our goal is to gain a deeper understanding of machine learning and t
 
 > University of Waterloo | Computer Science 3B Co-op 
 
-<h3>Joon Kim</h3>
-<a href="mailto:kimsjoon14@gmail.com" target="_blank">
-  <img src="https://img.shields.io/badge/Email-kimsjoon14@gmail.com-red?style=flat-square&logo=Gmail&logoColor=EA4335"/>
-</a>
-<a href="https://www.linkedin.com/in/joonkim14/" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-Joon Kim-blue?style=flat-square&logo=LinkedIn&logoColor=0A66C2"/>
-</a>
-
-> University of Waterloo | TBU
-
 # <div id="features">Features</div>
 To be updated, please refer to wiki page for more details for now.
 
