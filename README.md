@@ -53,13 +53,13 @@ Ultimately, our goal is to gain a deeper understanding of machine learning and t
 > University of Waterloo | Computer Science 3B Co-op 
 
 # <div id="features">Features</div>
-To be updated, please refer to wiki page for more details for now.
+_*Features are still in development phase, please check out our [wiki](https://github.com/fedele7008/MNIST_DNN/wiki) for more detail.*_
 
 # <div id="install">Install</div>
-To be updated, please refer to wiki page for more details for now.
+_*Product is still in development phase, please check out our [wiki](https://github.com/fedele7008/MNIST_DNN/wiki) for more detail.*_
 
 # <div id="usage">Usage</div>
-To be updated, please refer to wiki page for more details for now.
+_*Product is still in development phase, please check out our [wiki](https://github.com/fedele7008/MNIST_DNN/wiki) for more detail.*_
 
 # <div id="credit">Credits</div>
 Special thanks
