@@ -10,6 +10,14 @@
 #   ** Request PyPI and test-PyPI access token to John Yoon before setting up **
 
 VERSION="0.1.0"
+WINDOWS="False"
+
+if [ ${#} -gt 0 ]; then
+    if [ ${1} = "-windows" ] || [ ${1} = "--windows" ]; then
+        shift 1
+        WINDOWS="True"
+    fi
+fi
 
 # Check if command is sourced. If not, abort.
 is_sourced() {
@@ -281,7 +289,11 @@ if [ ${OPTION} = "test" ] || [ ${OPTION} = "release" ]; then
 
         if [ ${AGREEMENT} = 'y' ] || [ ${AGREEMENT} = 'Y' ]; then
             echo -n "Updating..."
-            sed -i "" "s/version='.*'/version='${USER_INPUT}'/g" "setup.py"
+            if [ ${WINDOWS} = "False" ]; then
+                sed -i "" "s/version='.*'/version='${USER_INPUT}'/g" "setup.py"
+            else
+                sed -i "s/version='.*'/version='${USER_INPUT}'/g" "setup.py"
+            fi
             echo "Done"
         else
             echo "Canceling the change...Done"
@@ -299,11 +311,19 @@ if [ ${OPTION} = "test" ] || [ ${OPTION} = "release" ]; then
         rm -rf "dist/"
     fi
 
-    # Activate publish purpose venv
-    source ../../dev/publish-venv/bin/activate
+    if [ ${WINDOWS} = "True" ]; then
+        # Activate publish purpose venv
+        source ../../dev/publish-venv/Scripts/activate
 
-    # Locate python
-    VENV_PYTHON_LOC=$(which python)
+        # Locate python
+        VENV_PYTHON_LOC="../../dev/publish-venv/Scripts/python"
+    else
+        # Activate publish purpose venv
+        source ../../dev/publish-venv/bin/activate
+
+        # Locate python
+        VENV_PYTHON_LOC=$(which python)
+    fi
 
     # Create binary distribution using wheel
     echo "Building binary distribution..."
@@ -344,11 +364,19 @@ elif [ ${OPTION} = "build" ]; then
         rm -rf "dist/"
     fi
 
-    # Activate publish purpose venv
-    source ../../dev/publish-venv/bin/activate
+    if [ ${WINDOWS} = "True" ]; then
+        # Activate publish purpose venv
+        source ../../dev/publish-venv/Scripts/activate
 
-    # Locate python
-    VENV_PYTHON_LOC=$(which python)
+        # Locate python
+        VENV_PYTHON_LOC="../../dev/publish-venv/Scripts/python"
+    else
+        # Activate publish purpose venv
+        source ../../dev/publish-venv/bin/activate
+
+        # Locate python
+        VENV_PYTHON_LOC=$(which python)
+    fi
 
     # Create binary distribution using wheel
     echo "Building binary distribution..."
