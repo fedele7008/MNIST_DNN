@@ -33,20 +33,20 @@ is_sourced() {
 
 (return 0 2>/dev/null) && sourced=1 || sourced=0
 if [ ${sourced} -eq 0 ]; then
-    echo "Script is not sourced, please run \"source env_setup.sh\" instead."
-    echo "For more information, please check \"source env_setup.sh -help\" for usage."
+    echo -e "Script is not sourced, please run \"source env_setup.sh\" instead."
+    echo -e "For more information, please check \"source env_setup.sh -help\" for usage."
     return 1 2> /dev/null; exit 1
 fi
 
 general_inst () {
-    echo "To activate the virtual environment, run:"
-    echo "  * source dev/publish-venv/bin/activate\t\t(use for publishing a new update)"
-    echo "  * source dev/mnist-dnn-venv/bin/activate\t\t(use for developing MNIST_DNN)"
-    echo "  * source dev/mnist-dnn-api-venv/bin/activate\t\t(use for developing MNIST_DNN_API)"
-    echo "To deactivate the virtual environment, run:"
-    echo "  * deactivate"
-    echo ""
-    echo "NOTE: Python project should be run while virtual environment is activated."
+    echo -e "To activate the virtual environment, run:"
+    echo -e "  * source dev/publish-venv/bin/activate\t\t(use for publishing a new update)"
+    echo -e "  * source dev/mnist-dnn-venv/bin/activate\t\t(use for developing MNIST_DNN)"
+    echo -e "  * source dev/mnist-dnn-api-venv/bin/activate\t\t(use for developing MNIST_DNN_API)"
+    echo -e "To deactivate the virtual environment, run:"
+    echo -e "  * deactivate"
+    echo -e ""
+    echo -e "NOTE: Python project should be run while virtual environment is activated."
 }
 
 if [ ${#} -eq 1 ]; then
@@ -58,26 +58,26 @@ if [ ${#} -eq 1 ]; then
         CLEAR="True"
         REFRESH="True"
     else
-        echo "Invalid option value, please check \"source env_setup.sh -help\" for usage."
+        echo -e "Invalid option value, please check \"source env_setup.sh -help\" for usage."
         return 1 2> /dev/null; exit 1
     fi
 elif [ ${#} -gt 1 ]; then
-    echo "Invalid option value, please check \"source env_setup.sh -help\" for usage."
+    echo -e "Invalid option value, please check \"source env_setup.sh -help\" for usage."
     return 1 2> /dev/null; exit 1
 fi
 
 if [ ${HELP} = "True" ]; then
     # print help
-    echo "To setup virtual environment for MNIST_DNN project, goto project's directory and run \"source env_setup.sh\""
-    echo "For any issues, please notify John Yoon <fedelejohn7008@gmail.com>."
-    echo ""
-    echo "Usage:"
-    echo "  source env_setup.sh <option>"
-    echo ""
-    echo "Options:"
-    echo "  -help, --help\t\t\tShow help."
-    echo "  -clear, --clear\t\tRemove the initial setting."
-    echo "  -refresh, --refresh\t\tReset the initial setting."
+    echo -e "To setup virtual environment for MNIST_DNN project, goto project's directory and run \"source env_setup.sh\""
+    echo -e "For any issues, please notify John Yoon <fedelejohn7008@gmail.com>."
+    echo -e ""
+    echo -e "Usage:"
+    echo -e "  source env_setup.sh <option>"
+    echo -e ""
+    echo -e "Options:"
+    echo -e "  -help, --help\t\t\tShow help."
+    echo -e "  -clear, --clear\t\tRemove the initial setting."
+    echo -e "  -refresh, --refresh\t\tReset the initial setting."
 
     # exit with code 0
     return 0 2> /dev/null; exit 0
@@ -86,9 +86,9 @@ fi
 if [ ${CLEAR} = "True" ]; then
     if [ -d "dev" ]; then
         # remove 'dev/'
-        echo -n "Removing the virtual environment..."
+        echo -en "Removing the virtual environment..."
         rm -r dev/
-        echo "Done"
+        echo -e "Done"
 
         # exit when refresh flag is down
         if [ ${REFRESH} = "False" ]; then
@@ -100,9 +100,9 @@ fi
 
 # Create dev local directory for the virtual environment (this is not commited to git)
 if [ ! -d "dev" ]; then
-    echo -n "Creating 'dev/'..."
+    echo -en "Creating 'dev/'..."
     mkdir "dev"
-    echo "Done"
+    echo -e "Done"
 fi
 
 # If setting file already exists
@@ -111,22 +111,22 @@ if [ -f dev/.${SETTINGS_FILE} ]; then
     cat "dev/.${SETTINGS_FILE}" | egrep "version==${VERSION}" 1> /dev/null 2> /dev/null
     if [ ${?} -eq 0 ]; then
         # current version is already installed, show instruction and exit
-        echo "Venv setup is already completed, to refresh setup, run \"source env_setup.sh -refresh\""
-        echo ""
+        echo -e "Venv setup is already completed, to refresh setup, run \"source env_setup.sh -refresh\""
+        echo -e ""
         general_inst
 
         # exit with code 0
         return 0 2> /dev/null; exit 0
     else
         # new version is available clear the dev/
-        echo "new update is found, proceeding upgrade"
+        echo -e "new update is found, proceeding upgrade"
         rm -r dev/
         mkdir "dev"
     fi
 fi
 
 # Check if pip & python is installed
-echo -n "Locating Python/PIP..."
+echo -en "Locating Python/PIP..."
 which python3 1> /dev/null 2> /dev/null
 PYTHON3_INSTALLED=${?}
 which python 1> /dev/null 2> /dev/null
@@ -137,20 +137,20 @@ which pip 1> /dev/null 2> /dev/null
 PIP_INSTALLED=${?}
 
 if [ ${PYTHON3_INSTALLED} -eq 1 ] && [ ${PYTHON_INSTALLED} -eq 1 ]; then
-    echo "Failed"
-    echo "Python is not found."
+    echo -e "Failed"
+    echo -e "Python is not found."
     # exit with code 1
     return 1 2> /dev/null; exit 1
 elif [ ${PIP3_INSTALLED} -eq 1 ] && [ ${PIP_INSTALLED} -eq 1 ]; then
-    echo "Failed"
-    echo "PIP is not found."
+    echo -e "Failed"
+    echo -e "PIP is not found."
     # exit with code 1
     return 1 2> /dev/null; exit 1
 fi
-echo "Done"
+echo -e "Done"
 
 # Check if pip is valid
-echo -n "Validating PIP..."
+echo -en "Validating PIP..."
 PIP_FOUND="False"
 
 if [ ${PIP_FOUND} = "False" ] && [ ${PIP3_INSTALLED} -eq 0 ] && [ ${PYTHON3_INSTALLED} -eq 0 ]; then
@@ -174,27 +174,27 @@ if [ ${PIP_FOUND} = "False" ] && [ ${PIP_INSTALLED} -eq 0 ] && [ ${PYTHON_INSTAL
 fi
 
 if [ ${PIP_FOUND} = "False" ]; then
-    echo "Failed"
-    echo "No valid PIP is found."
+    echo -e "Failed"
+    echo -e "No valid PIP is found."
     # exit with code 1
     return 1 2> /dev/null; exit 1
 fi
 
-echo "Done"
+echo -e "Done"
 
 # Install virtualenv
 ${PIP_LOC} list | egrep "virtualenv" 1> /dev/null 2> /dev/null
 if [ ${?} -eq 1 ]; then
-    echo "Start installing 'virtualenv'..."
+    echo -e "Start installing 'virtualenv'..."
     ${PIP_LOC} install virtualenv
 fi
 
-echo -n "Creating publish environment..."
+echo -en "Creating publish environment..."
 
 # Initiate venv for publishing packages
 ${PYTHON_LOC} -m venv dev/publish-venv
 
-echo "Done"
+echo -e "Done"
 
 # Activate venv
 
@@ -206,29 +206,29 @@ else
     VENV_PIP_LOC="./dev/publish-venv/bin/pip"
 fi
 
-echo "Installing required packages..."
-echo "=========================================="
+echo -e "Installing required packages..."
+echo -e "=========================================="
 # Install publish-purpose packages
 ${VENV_PIP_LOC} install setuptools==65.5.0
 ${VENV_PIP_LOC} install wheel==0.38.4
 ${VENV_PIP_LOC} install build==0.10.0
 ${VENV_PIP_LOC} install twine==4.0.2
-echo "=========================================="
-echo "Done"
+echo -e "=========================================="
+echo -e "Done"
 
-echo "Installed packages:"
+echo -e "Installed packages:"
 ${VENV_PIP_LOC} list
-echo "=========================================="
+echo -e "=========================================="
 
 # Deactivate out from venv
 deactivate
 
-echo -n "Creating MNIST_DNN environment..."
+echo -en "Creating MNIST_DNN environment..."
 
 # Initiate venv for MNIST_DNN packages
 ${PYTHON_LOC} -m venv dev/mnist-dnn-venv
 
-echo "Done"
+echo -e "Done"
 
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
@@ -241,34 +241,34 @@ else
     VENV_PYTHON_LOC="../../dev/mnist-dnn-venv/bin/python"
 fi
 
-echo "Installing required packages..."
-echo "=========================================="
+echo -e "Installing required packages..."
+echo -e "=========================================="
 # Install required files
 ${VENV_PIP_LOC} install -r packages/dnn/requirements.txt
-echo "=========================================="
-echo "Done"
+echo -e "=========================================="
+echo -e "Done"
 
-echo "Linking project to site-package..."
-echo "=========================================="
+echo -e "Linking project to site-package..."
+echo -e "=========================================="
 cd packages/dnn
 ${VENV_PYTHON_LOC} setup.py develop
 cd ../../
-echo "=========================================="
-echo "Done"
+echo -e "=========================================="
+echo -e "Done"
 
-echo "Installed packages:"
+echo -e "Installed packages:"
 ${VENV_PIP_LOC} list
-echo "=========================================="
+echo -e "=========================================="
 
 # Deactivate out from venv
 deactivate
 
-echo -n "Creating MNIST_DNN_API environment..."
+echo -en "Creating MNIST_DNN_API environment..."
 
 # Initiate venv for MNIST_DNN_API packages
 ${PYTHON_LOC} -m venv dev/mnist-dnn-api-venv
 
-echo "Done"
+echo -e "Done"
 
 # Activate venv
 if [ ${WINDOWS} = "True" ]; then
@@ -281,33 +281,33 @@ else
     VENV_PYTHON_LOC="../../dev/mnist-dnn-api-venv/bin/python"
 fi
 
-echo "Installing required packages..."
-echo "=========================================="
+echo -e "Installing required packages..."
+echo -e "=========================================="
 # Install required files
 ${VENV_PIP_LOC} install -r packages/api/requirements.txt
 ${VENV_PIP_LOC} install mnist-dnn
 ${VENV_PIP_LOC} install -U mnist-dnn
-echo "=========================================="
-echo "Done"
+echo -e "=========================================="
+echo -e "Done"
 
-echo "Linking project to site-package..."
-echo "=========================================="
+echo -e "Linking project to site-package..."
+echo -e "=========================================="
 cd packages/api
 ${VENV_PYTHON_LOC} setup.py develop
 cd ../../
-echo "=========================================="
-echo "Done"
+echo -e "=========================================="
+echo -e "Done"
 
-echo "Installed packages:"
+echo -e "Installed packages:"
 ${VENV_PIP_LOC} list
-echo "=========================================="
+echo -e "=========================================="
 
 # Deactivate venv
 deactivate
 
-echo ""
-echo "Setup complete."
-echo ""
+echo -e ""
+echo -e "Setup complete."
+echo -e ""
 general_inst
 
-echo "version==${VERSION}" > "dev/.${SETTINGS_FILE}"
+echo -e "version==${VERSION}" > "dev/.${SETTINGS_FILE}"
