@@ -40,9 +40,9 @@ class MNIST():
             
         Return:
             ((x_train_data, y_train_data), (x_test_data, y_test_data))
-            * x_train_data(2D) has dimension of 784 x 60000, each column is an image.
+            * x_train_data(2D) has dimension of 60000 x 784, each row is an image.
             * y_train_data(1D) has dimension of 60000, each row is a label.
-            * x_test_data(2D) has dimension of 784 x 10000, each column is an image.
+            * x_test_data(2D) has dimension of 10000 x 784, each row is an image.
             * y_test_data(1D) has dimension of 10000, each row is a label.
         """
 
@@ -61,12 +61,12 @@ class MNIST():
         # Separate the label and pixel data from training dataset
         train_data = train_data.T
         y_train_data = train_data[0]
-        x_train_data = train_data[1:]
+        x_train_data = train_data[1:].T
 
         # Separate the label and pixel data from testing dataset
         test_data = test_data.T
         y_test_data = test_data[0]
-        x_test_data = test_data[1:]
+        x_test_data = test_data[1:].T
 
         # Normalize greyscale pixels
         x_train_data = x_train_data.astype(np.float64) / 255
