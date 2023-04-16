@@ -21,6 +21,8 @@ INSTRUCTION=False
 SETTINGS_FILE="settings.txt"
 INITIAL_DIR=$(pwd)
 PROJECT_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+# IF Project root path contains 'space', it will cause error
+# TODO: Resolve the space issue (os dependent)
 LOG_DIR="${PROJECT_ROOT}/dev/log/env_setup"
 
 # validate configurable os
