@@ -116,9 +116,8 @@ set_alias () {
                     deactivate 1> /dev/null 2> /dev/null
                     MNIST_DEV=NONE
                 fi
-
                 source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
-                echo -e "\e[34ACTIVATING DNN\e[0m"
+                echo -e "\e[36mACTIVATING DNN\e[0m"
                 MNIST_DEV=DNN
                 return 0
             elif [[ ${1} == "a" || ${1} == "api" ]]; then
@@ -130,9 +129,8 @@ set_alias () {
                     deactivate 1> /dev/null 2> /dev/null
                     MNIST_DEV=NONE
                 fi
-
                 source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
-                echo -e "\e[34ACTIVATING API\e[0m"
+                echo -e "\e[36mACTIVATING API\e[0m"
                 MNIST_DEV=API
                 return 0
             elif [[ ${1} == "p" || ${1} == "publish" ]]; then
@@ -144,9 +142,8 @@ set_alias () {
                     deactivate 1> /dev/null 2> /dev/null
                     MNIST_DEV=NONE
                 fi
-
                 source ${PROJECT_ROOT}/dev/publish-venv/${_PATH_TO_ACTIVATE}/activate
-                echo -e "\e[34ACTIVATING PUBLISH\e[0m"
+                echo -e "\e[36mACTIVATING PUBLISH\e[0m"
                 MNIST_DEV=PUBLISH
                 return 0
             elif [[ ${1} == "h" || ${1} == "help" ]]; then
