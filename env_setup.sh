@@ -790,34 +790,13 @@ else
     return 1 2> /dev/null; exit 1
 fi
 
-# # Update mnist_dnn if required
-# echo -en "Updating 'mnist-dnn' package --- "
-# if [[ -f "${LOG_DIR}/api_venv_update_dnn.log" ]]; then
-#     rm -f "${LOG_DIR}/api_venv_update_dnn.log"
-# fi
-# ${VENV_PIP_LOC} install -U mnist-dnn >> "${LOG_DIR}/api_venv_update_dnn.log" 2>&1
-# if [[ ${?} == 0 ]]; then
-#     echo -e "\e[32mDone\e[0m"
-# else
-#     echo -e "\e[31mFailed\e[0m"
-#     echo -en "\e[90m"; cat "${LOG_DIR}/api_venv_update_dnn.log"; echo -e "\e[31mAborting the setup\e[0m"
-
-#     # deactivate venv
-#     deactivate
-
-#     # go back to initial directory
-#     cd ${INITIAL_DIR}
-    
-#     # exit with code 1
-#     return 1 2> /dev/null; exit 1
-# fi
-
-# Sleep for 15 second for previous setup.py to settle
-# If error still occurs, re-try the script. (it might work after one failure)
-sleep 15
-
 # Add project to site-package
 echo -en "Linking 'mnist_dnn' to site-package --- "
+
+# Sleep for 10 second for previous setup.py to settle
+# If error still occurs, re-try the script. (it might work after one failure)
+sleep 10
+
 if [[ -f "${LOG_DIR}/api_venv_linking_project_dnn.log" ]]; then
     rm -f "${LOG_DIR}/api_venv_linking_project_dnn.log"
 fi
