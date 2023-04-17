@@ -246,6 +246,7 @@ else
     fi
 fi
 
+echo -e "\e[0m     SHELL: \t\e[32m${SHELL}\e[0m"
 echo -e "\e[0m      ROOT: \t\e[32m${PROJECT_ROOT}\e[0m"
 
 # goto project root
@@ -287,7 +288,7 @@ if [[ -f dev/.${SETTINGS_FILE} ]]; then
     cat "dev/.${SETTINGS_FILE}" | egrep "version==${VERSION}" 1> /dev/null 2> /dev/null
     if [[ ${?} -eq 0 ]]; then
         # set alias
-        set_alias
+        set_alias 1> /dev/null 2> /dev/null
 
         # current version is already installed, show instruction and exit
         echo -e ""
@@ -326,6 +327,7 @@ fi
 # Python version ordering is from most prefered version to least prefered version
 PYTHON_LIST=('python3.10' 'python3.9' 'python3.8' 'python3' 'python3.11' 'python3.7' 'python3.6' 'python')
 _ALTERNATIVE=False
+_FOUND=False
 
 for python_version in ${PYTHON_LIST[@]}; do
     # locate Python
@@ -349,12 +351,11 @@ for python_version in ${PYTHON_LIST[@]}; do
 
             # verify pip3
             echo -en "Verifying pip --- "
-            PIP_LOC="${PYTHON_LOC} -m pip"
-            ${PIP_LOC} -V 1> /dev/null 2> /dev/null
+            ${PYTHON_LOC} -m pip -V 1> /dev/null 2> /dev/null
             PIP_VERIFIED=${?}
-
             if [[ ${PIP_VERIFIED} == 0 ]]; then
                 echo -e "\e[32mDone\e[0m"
+                _FOUND=True
                 break
             else
                 echo -e "\e[31mFailed\e[0m"
@@ -370,6 +371,16 @@ for python_version in ${PYTHON_LIST[@]}; do
     fi
 done
 
+if [[ ${_FOUND} == False ]]; then
+    echo -e "\e[31mPython not found\e[0m"
+
+    # go back to initial directory
+    cd ${INITIAL_DIR}
+    
+    # exit with code 1
+    return 1 2> /dev/null; exit 1
+fi
+
 if [[ ! -e "${LOG_DIR}" ]]; then
     mkdir -p "${LOG_DIR}"
 fi
@@ -379,7 +390,7 @@ echo -en "Upgrading pip --- "
 if [[ -f "${LOG_DIR}/main_pip_upgrade.log" ]]; then
     rm -f "${LOG_DIR}/main_pip_upgrade.log"
 fi
-${PIP_LOC} install --upgrade pip >> "${LOG_DIR}/main_pip_upgrade.log" 2>&1
+${PYTHON_LOC} -m pip install --upgrade pip >> "${LOG_DIR}/main_pip_upgrade.log" 2>&1
 if [[ ${?} == 0 ]]; then
     echo -e "\e[32mDone\e[0m"
 else
@@ -398,11 +409,11 @@ echo -en "Installing virtualenv --- "
 if [[ -f "${LOG_DIR}/main_install_virtualenv.log" ]]; then
     rm -f "${LOG_DIR}/main_install_virtualenv.log"
 fi
-${PIP_LOC} list | egrep "virtualenv" 1> /dev/null 2> /dev/null
+${PYTHON_LOC} -m pip list | egrep "virtualenv" 1> /dev/null 2> /dev/null
 if [[ ${?} == 0 ]]; then
     echo -e "\e[32malready exists\e[0m"
 else
-    ${PIP_LOC} install virtualenv >> "${LOG_DIR}/main_install_virtualenv.log" 2>&1
+    ${PYTHON_LOC} -m pip install virtualenv >> "${LOG_DIR}/main_install_virtualenv.log" 2>&1
     if [[ ${?} == 0 ]]; then
         echo -e "\e[32mDone\e[0m"
     else
@@ -473,7 +484,7 @@ fi
 # Do not upgrade venv pip to the newest version, it may cause critical bug.
 
 # Install publish-purpose packages
-echo -en "Installing required packages --- "
+echo -en "Installing required packages [1/1] --- "
 if [[ -f "${LOG_DIR}/publish_venv_install_packages.log" ]]; then
     rm -f "${LOG_DIR}/publish_venv_install_packages.log"
 fi
@@ -571,37 +582,43 @@ fi
 
 # Do not upgrade venv pip to the newest version, it may cause critical bug.
 
-# # Install required packages
-# echo -en "Installing required packages --- "
-# if [[ -f "${LOG_DIR}/dnn_venv_install_packages.log" ]]; then
-#     rm -f "${LOG_DIR}/dnn_venv_install_packages.log"
-# fi
+# Install required packages for dnn
+echo -en "Installing required packages [1/1] --- "
+if [[ -f "${LOG_DIR}/dnn_venv_install_packages.log" ]]; then
+    rm -f "${LOG_DIR}/dnn_venv_install_packages.log"
+fi
 
-# _FAILED=False
-# readarray -t dnn_venv_packages < "${PROJECT_ROOT}/packages/dnn/requirements.txt"
-# for _package in ${dnn_venv_packages[@]}; do
-#     ${VENV_PIP_LOC} install ${_package} >> "${LOG_DIR}/dnn_venv_install_packages.log" 2>&1
-#     if [[ ${?} != 0 ]]; then
-#         _FAILED=True
-#         break
-#     fi
-# done
+_FAILED=False
+if [[ ${OS} == "MacOS" ]]; then
+    # zsh equivalent of readarray in bash
+    dnn_venv_packages=("${(f)$(< "${PROJECT_ROOT}/packages/dnn/requirements.txt")}")
+else
+    readarray -t dnn_venv_packages < "${PROJECT_ROOT}/packages/dnn/requirements.txt"
+fi
 
-# if [[ ${_FAILED} == False ]]; then
-#     echo -e "\e[32mDone\e[0m"
-# else
-#     echo -e "\e[31mFailed\e[0m"
-#     echo -en "\e[90m"; cat "${LOG_DIR}/dnn_venv_install_packages.log"; echo -e "\e[31mAborting the setup\e[0m"
+for _package in ${dnn_venv_packages[@]}; do
+    ${VENV_PIP_LOC} install ${_package} >> "${LOG_DIR}/dnn_venv_install_packages.log" 2>&1
+    if [[ ${?} != 0 ]]; then
+        _FAILED=True
+        break
+    fi
+done
 
-#     # deactivate venv
-#     deactivate
+if [[ ${_FAILED} == False ]]; then
+    echo -e "\e[32mDone\e[0m"
+else
+    echo -e "\e[31mFailed\e[0m"
+    echo -en "\e[90m"; cat "${LOG_DIR}/dnn_venv_install_packages.log"; echo -e "\e[31mAborting the setup\e[0m"
 
-#     # go back to initial directory
-#     cd ${INITIAL_DIR}
+    # deactivate venv
+    deactivate
+
+    # go back to initial directory
+    cd ${INITIAL_DIR}
     
-#     # exit with code 1
-#     return 1 2> /dev/null; exit 1
-# fi
+    # exit with code 1
+    return 1 2> /dev/null; exit 1
+fi
 
 # Add project to site-package
 echo -en "Linking 'mnist_dnn' to site-package --- "
@@ -610,7 +627,7 @@ if [[ -f "${LOG_DIR}/dnn_venv_linking_project.log" ]]; then
 fi
 
 cd "${PROJECT_ROOT}/packages/dnn"
-${VENV_PYTHON_LOC} setup.py develop >> "${LOG_DIR}/dnn_venv_linking_project.log" 2>&1
+${VENV_PYTHON_LOC} setup.py develop --no-deps >> "${LOG_DIR}/dnn_venv_linking_project.log" 2>&1
 _SUCCESS=${?}
 cd "${PROJECT_ROOT}"
 
@@ -697,37 +714,81 @@ fi
 
 # Do not upgrade venv pip to the newest version, it may cause critical bug.
 
-# # Install required packages
-# echo -en "Installing required packages --- "
-# if [[ -f "${LOG_DIR}/api_venv_install_packages.log" ]]; then
-#     rm -f "${LOG_DIR}/api_venv_install_packages.log"
-# fi
+# Install required packages for dnn
+echo -en "Installing required packages [1/2] --- "
+if [[ -f "${LOG_DIR}/api_venv_install_packages_dnn.log" ]]; then
+    rm -f "${LOG_DIR}/api_venv_install_packages_dnn.log"
+fi
 
-# _FAILED=False
-# readarray -t api_venv_packages < "${PROJECT_ROOT}/packages/api/requirements.txt"
-# for _package in ${api_venv_packages[@]}; do
-#     ${VENV_PIP_LOC} install ${_package} >> "${LOG_DIR}/api_venv_install_packages.log" 2>&1
-#     if [[ ${?} != 0 ]]; then
-#         _FAILED=True
-#         break
-#     fi
-# done
+_FAILED=False
+if [[ ${OS} == "MacOS" ]]; then
+    # zsh equivalent of readarray in bash
+    dnn_venv_packages=("${(f)$(< "${PROJECT_ROOT}/packages/dnn/requirements.txt")}")
+else
+    readarray -t dnn_venv_packages < "${PROJECT_ROOT}/packages/dnn/requirements.txt"
+fi
 
-# if [[ ${_FAILED} == False ]]; then
-#     echo -e "\e[32mDone\e[0m"
-# else
-#     echo -e "\e[31mFailed\e[0m"
-#     echo -en "\e[90m"; cat "${LOG_DIR}/api_venv_install_packages.log"; echo -e "\e[31mAborting the setup\e[0m"
+for _package in ${dnn_venv_packages[@]}; do
+    ${VENV_PIP_LOC} install ${_package} >> "${LOG_DIR}/api_venv_install_packages_dnn.log" 2>&1
+    if [[ ${?} != 0 ]]; then
+        _FAILED=True
+        break
+    fi
+done
 
-#     # deactivate venv
-#     deactivate
+if [[ ${_FAILED} == False ]]; then
+    echo -e "\e[32mDone\e[0m"
+else
+    echo -e "\e[31mFailed\e[0m"
+    echo -en "\e[90m"; cat "${LOG_DIR}/api_venv_install_packages_dnn.log"; echo -e "\e[31mAborting the setup\e[0m"
 
-#     # go back to initial directory
-#     cd ${INITIAL_DIR}
+    # deactivate venv
+    deactivate
+
+    # go back to initial directory
+    cd ${INITIAL_DIR}
     
-#     # exit with code 1
-#     return 1 2> /dev/null; exit 1
-# fi
+    # exit with code 1
+    return 1 2> /dev/null; exit 1
+fi
+
+# Install required packages for api
+echo -en "Installing required packages [2/2] --- "
+if [[ -f "${LOG_DIR}/api_venv_install_packages_api.log" ]]; then
+    rm -f "${LOG_DIR}/api_venv_install_packages_api.log"
+fi
+
+_FAILED=False
+if [[ ${OS} == "MacOS" ]]; then
+    # zsh equivalent of readarray in bash
+    api_venv_packages=("${(f)$(< "${PROJECT_ROOT}/packages/api/requirements.txt")}")
+else
+    readarray -t api_venv_packages < "${PROJECT_ROOT}/packages/api/requirements.txt"
+fi
+
+for _package in ${api_venv_packages[@]}; do
+    ${VENV_PIP_LOC} install ${_package} >> "${LOG_DIR}/api_venv_install_packages_api.log" 2>&1
+    if [[ ${?} != 0 ]]; then
+        _FAILED=True
+        break
+    fi
+done
+
+if [[ ${_FAILED} == False ]]; then
+    echo -e "\e[32mDone\e[0m"
+else
+    echo -e "\e[31mFailed\e[0m"
+    echo -en "\e[90m"; cat "${LOG_DIR}/api_venv_install_packages_api.log"; echo -e "\e[31mAborting the setup\e[0m"
+
+    # deactivate venv
+    deactivate
+
+    # go back to initial directory
+    cd ${INITIAL_DIR}
+    
+    # exit with code 1
+    return 1 2> /dev/null; exit 1
+fi
 
 # # Update mnist_dnn if required
 # echo -en "Updating 'mnist-dnn' package --- "
@@ -762,7 +823,7 @@ if [[ -f "${LOG_DIR}/api_venv_linking_project_dnn.log" ]]; then
 fi
 
 cd "${PROJECT_ROOT}/packages/dnn"
-${VENV_PYTHON_LOC} setup.py develop >> "${LOG_DIR}/api_venv_linking_project_dnn.log" 2>&1
+${VENV_PYTHON_LOC} setup.py develop --no-deps >> "${LOG_DIR}/api_venv_linking_project_dnn.log" 2>&1
 _SUCCESS=${?}
 cd "${PROJECT_ROOT}"
 
@@ -789,7 +850,7 @@ if [[ -f "${LOG_DIR}/api_venv_linking_project.log" ]]; then
 fi
 
 cd "${PROJECT_ROOT}/packages/api"
-${VENV_PYTHON_LOC} setup.py develop >> "${LOG_DIR}/api_venv_linking_project.log" 2>&1
+${VENV_PYTHON_LOC} setup.py develop --no-deps >> "${LOG_DIR}/api_venv_linking_project.log" 2>&1
 _SUCCESS=${?}
 cd "${PROJECT_ROOT}"
 
@@ -826,7 +887,7 @@ fi
 echo -e "version==${VERSION}" > "dev/.${SETTINGS_FILE}"
 
 # Set useful alias
-set_alias
+set_alias 1> /dev/null 2> /dev/null
 
 # Print instruction
 echo -e ""
