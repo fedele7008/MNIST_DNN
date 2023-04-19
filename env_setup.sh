@@ -94,6 +94,14 @@ set_alias () {
     alias dnn="cd ${PROJECT_ROOT}/packages/dnn; echo -e \"\e[35mMOVING TO MNIST_DNN PACKAGE\e[0m\""
     alias api="cd ${PROJECT_ROOT}/packages/api; echo -e \"\e[35mMOVING TO MNIST_DNN_API PACKAGE\e[0m\""
 
+    status () {
+        echo -e "\e[36m${PROJECT} ENVIRONMENT\e[0m"
+        echo -e "  \e[33m\${PROJECT_ROOT}\e[0m = ${PROJECT_ROOT}"
+        echo -e "  \e[33m\${OS}\e[0m = ${OS}"
+        echo -e "  \e[33m\${SHELL}\e[0m = ${SHELL}"
+        echo -e "  \e[33m\${VENV}\e[0m = ${MNIST_DEV}"
+    }
+
     enter () {
         if [[ ${OS} == "Windows" ]]; then
             _PATH_TO_ACTIVATE="Scripts"
@@ -180,6 +188,7 @@ set_alias () {
     }
 
     export -f enter
+    export -f status
 }
 
 # argument parsing 
