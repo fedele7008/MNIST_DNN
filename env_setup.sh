@@ -146,6 +146,11 @@ set_alias () {
                 echo -e "\e[36mACTIVATING PUBLISH\e[0m"
                 MNIST_DEV=PUBLISH
                 return 0
+            elif [[ ${1} == "o" || ${1} == "off" ]]; then
+                echo -e "\e[35mDEACTIVATING ${MNIST_DEV}\e[0m"
+                deactivate 1> /dev/null 2> /dev/null
+                MNIST_DEV=NONE
+                return 0
             elif [[ ${1} == "h" || ${1} == "help" ]]; then
                 echo -e "\e[1mPurpose:\e[0m"
                 echo -e "  Enter the virtual environment for ${PROJECT} components: publish, dnn, api"
@@ -157,6 +162,7 @@ set_alias () {
                 echo -e "  \e[3m\e[33ma\e[0m, \e[3m\e[33mapi\e[0m\t\tEnter mnist-api-venv."
                 echo -e "  \e[3m\e[33md\e[0m, \e[3m\e[33mdnn\e[0m\t\tEnter mnist-dnn-venv."
                 echo -e "  \e[3m\e[33mp\e[0m, \e[3m\e[33mpublish\e[0m\t\tEnter publish-venv."
+                echo -e "  \e[3m\e[33mo\e[0m, \e[3m\e[33moff\e[0m\t\tDeactivate from current virtual environment."
                 echo -e "  \e[3m\e[33mh\e[0m, \e[3m\e[33mhelp\e[0m\t\tShow this help."
                 echo -e ""
                 echo -e "\e[35m\e[1m\e[3mIf you leave \e[33m<option>\e[35m blank, it will deactivate current virtual environment.\e[0m"
