@@ -78,12 +78,17 @@ usage () {
 instruction () {
     echo -e "\e[36mMNIST_DNN DEVELOP ENVIRONMENT FEATURES\e[0m"
     echo -e "\e[1mVariables:\e[0m"
-    echo -e "  \e[33mPROJECT_ROOT\e[0m\t\tPath to MNIST_DNN repository root."
+    echo -e "  \e[33mPROJECT_ROOT\e[0m\t\t\tPath to MNIST_DNN repository root."
+    echo -e "  \e[33mOS\e[0m\t\t\t\tCurrent running environment's operating system."
+    echo -e "  \e[33mMNIST_DEV\e[0m\t\t\tCurrently activated MNIST developing virtual environment."
     echo -e ""
     echo -e "\e[1mFunctions:\e[0m"
-    echo -e "  \e[33mroot\e[0m\t\tMove to MNIST_DNN repository root"
-    echo -e "  \e[33mdnn\e[0m\t\tMove to dnn package root"
-    echo -e "  \e[33mapi\e[0m\t\tMove to api package root"
+    echo -e "  \e[33mroot\e[0m\t\t\t\tMove to MNIST_DNN repository root"
+    echo -e "  \e[33mdnn\e[0m\t\t\t\tMove to dnn package root"
+    echo -e "  \e[33mapi\e[0m\t\t\t\tMove to api package root"
+    echo -e "  \e[33mstatus\e[0m\t\t\tshow current status of project setup"
+    echo -e "  \e[33menter \e[3m<option>\e[0m\t\tActivate or Deactivate virtual environment for development (use 'enter help' for the usage)"
+    echo -e "  \e[33mupdate_package \e[3m<option>\e[0m\tUpdate requirements.txt for selected package (use 'update_package help' for the usage)"
     echo -e ""
     echo -e "NOTE: Python project should be run while virtual environment is activated."
 }
@@ -99,7 +104,7 @@ set_alias () {
         echo -e "  \e[33m\${PROJECT_ROOT}\e[0m = ${PROJECT_ROOT}"
         echo -e "  \e[33m\${OS}\e[0m = ${OS}"
         echo -e "  \e[33m\${SHELL}\e[0m = ${SHELL}"
-        echo -e "  \e[33m\${VENV}\e[0m = ${MNIST_DEV}"
+        echo -e "  \e[33m\${MNIST_DEV}\e[0m = ${MNIST_DEV}"
     }
 
     enter () {
