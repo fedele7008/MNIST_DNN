@@ -20,10 +20,6 @@ REFRESH=False
 INSTRUCTION=False
 SETTINGS_FILE="settings.txt"
 INITIAL_DIR=$(pwd)
-PROJECT_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-# IF Project root path contains 'space', it will cause error
-# TODO: Resolve the space issue (os dependent)
-LOG_DIR="${PROJECT_ROOT}/dev/log/env_setup"
 
 # validate configurable os
 if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
@@ -50,6 +46,20 @@ else
     OS="${OSTYPE}"
     VERIFIED_OS="False"
 fi
+
+# continue with script configuration data
+if [[ ${OS} == MacOS ]]; then
+    PROJECT_ROOT=${0:a:h}
+else
+    PROJECT_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+fi
+# IF Project root path contains 'space', it will cause error
+if [[ "${PROJECT_ROOT}" =~ ( ) ]]; then
+    echo -e "\e[33m[WARNING] Project root path contains 'space' which is not allowed: ${PROJECT_ROOT}.\e[0m"
+    echo -e "Please move the project to different location and try again - run 'pwd' command to check if current directory contains 'space'"
+    return 1 2> /dev/null; exit 1
+fi
+LOG_DIR="${PROJECT_ROOT}/dev/log/env_setup"
 
 # helper functions
 is_sourced() {
@@ -90,9 +100,9 @@ instruction () {
 
 set_alias () {
     MNIST_DEV=NONE
-    alias root="cd ${PROJECT_ROOT}; echo -e \"\e[35mMOVING TO ${PROJECT} ROOT\e[0m\""
-    alias dnn="cd ${PROJECT_ROOT}/packages/dnn; echo -e \"\e[35mMOVING TO MNIST_DNN PACKAGE\e[0m\""
-    alias api="cd ${PROJECT_ROOT}/packages/api; echo -e \"\e[35mMOVING TO MNIST_DNN_API PACKAGE\e[0m\""
+    alias root="cd '${PROJECT_ROOT}'; echo -e \"\e[35mMOVING TO ${PROJECT} ROOT\e[0m\""
+    alias dnn="cd '${PROJECT_ROOT}/packages/dnn'; echo -e \"\e[35mMOVING TO MNIST_DNN PACKAGE\e[0m\""
+    alias api="cd '${PROJECT_ROOT}/packages/api'; echo -e \"\e[35mMOVING TO MNIST_DNN_API PACKAGE\e[0m\""
 
     enter () {
         if [[ ${OS} == "Windows" ]]; then
