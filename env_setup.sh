@@ -88,12 +88,17 @@ usage () {
 instruction () {
     echo -e "\e[36mMNIST_DNN DEVELOP ENVIRONMENT FEATURES\e[0m"
     echo -e "\e[1mVariables:\e[0m"
-    echo -e "  \e[33mPROJECT_ROOT\e[0m\t\tPath to MNIST_DNN repository root."
+    echo -e "  \e[33mPROJECT_ROOT\e[0m\t\t\tPath to MNIST_DNN repository root."
+    echo -e "  \e[33mOS\e[0m\t\t\t\tCurrent running environment's operating system."
+    echo -e "  \e[33mMNIST_DEV\e[0m\t\t\tCurrently activated MNIST developing virtual environment."
     echo -e ""
     echo -e "\e[1mFunctions:\e[0m"
-    echo -e "  \e[33mroot\e[0m\t\tMove to MNIST_DNN repository root"
-    echo -e "  \e[33mdnn\e[0m\t\tMove to dnn package root"
-    echo -e "  \e[33mapi\e[0m\t\tMove to api package root"
+    echo -e "  \e[33mroot\e[0m\t\t\t\tMove to MNIST_DNN repository root"
+    echo -e "  \e[33mdnn\e[0m\t\t\t\tMove to dnn package root"
+    echo -e "  \e[33mapi\e[0m\t\t\t\tMove to api package root"
+    echo -e "  \e[33mstatus\e[0m\t\t\tshow current status of project setup"
+    echo -e "  \e[33menter \e[3m<option>\e[0m\t\tActivate or Deactivate virtual environment for development (use 'enter help' for the usage)"
+    echo -e "  \e[33mupdate_package \e[3m<option>\e[0m\tUpdate requirements.txt for selected package (use 'update_package help' for the usage)"
     echo -e ""
     echo -e "NOTE: Python project should be run while virtual environment is activated."
 }
@@ -103,6 +108,14 @@ set_alias () {
     alias root="cd '${PROJECT_ROOT}'; echo -e \"\e[35mMOVING TO ${PROJECT} ROOT\e[0m\""
     alias dnn="cd '${PROJECT_ROOT}/packages/dnn'; echo -e \"\e[35mMOVING TO MNIST_DNN PACKAGE\e[0m\""
     alias api="cd '${PROJECT_ROOT}/packages/api'; echo -e \"\e[35mMOVING TO MNIST_DNN_API PACKAGE\e[0m\""
+
+    status () {
+        echo -e "\e[36m${PROJECT} ENVIRONMENT\e[0m"
+        echo -e "  \e[33m\${PROJECT_ROOT}\e[0m = ${PROJECT_ROOT}"
+        echo -e "  \e[33m\${OS}\e[0m = ${OS}"
+        echo -e "  \e[33m\${SHELL}\e[0m = ${SHELL}"
+        echo -e "  \e[33m\${MNIST_DEV}\e[0m = ${MNIST_DEV}"
+    }
 
     enter () {
         if [[ ${OS} == "Windows" ]]; then
@@ -156,6 +169,11 @@ set_alias () {
                 echo -e "\e[36mACTIVATING PUBLISH\e[0m"
                 MNIST_DEV=PUBLISH
                 return 0
+            elif [[ ${1} == "o" || ${1} == "off" ]]; then
+                echo -e "\e[35mDEACTIVATING ${MNIST_DEV}\e[0m"
+                deactivate 1> /dev/null 2> /dev/null
+                MNIST_DEV=NONE
+                return 0
             elif [[ ${1} == "h" || ${1} == "help" ]]; then
                 echo -e "\e[1mPurpose:\e[0m"
                 echo -e "  Enter the virtual environment for ${PROJECT} components: publish, dnn, api"
@@ -167,6 +185,7 @@ set_alias () {
                 echo -e "  \e[3m\e[33ma\e[0m, \e[3m\e[33mapi\e[0m\t\tEnter mnist-api-venv."
                 echo -e "  \e[3m\e[33md\e[0m, \e[3m\e[33mdnn\e[0m\t\tEnter mnist-dnn-venv."
                 echo -e "  \e[3m\e[33mp\e[0m, \e[3m\e[33mpublish\e[0m\t\tEnter publish-venv."
+                echo -e "  \e[3m\e[33mo\e[0m, \e[3m\e[33moff\e[0m\t\tDeactivate from current virtual environment."
                 echo -e "  \e[3m\e[33mh\e[0m, \e[3m\e[33mhelp\e[0m\t\tShow this help."
                 echo -e ""
                 echo -e "\e[35m\e[1m\e[3mIf you leave \e[33m<option>\e[35m blank, it will deactivate current virtual environment.\e[0m"
@@ -183,7 +202,90 @@ set_alias () {
         fi
     }
 
+    update_package () {
+        if [[ ${OS} == "Windows" ]]; then
+            _PATH_TO_ACTIVATE="Scripts"
+        else
+            _PATH_TO_ACTIVATE="bin"
+        fi
+
+        if [[ ${#} -eq 0 ]]; then
+            echo -e "\e[31mINVALID ARGUMENT: Please check \e[3m'update_package help'\e[0m\e[31m for the usage.\e[0m"
+            return 1
+        elif [[ ${#} -eq 1 ]]; then
+            if [[ ${1} == "a" || ${1} == "api" ]]; then
+                _CURRENT_DEV=${MNIST_DEV}
+                if [[ ${MNIST_DEV} != "NONE" && ${MNIST_DEV} != "API" ]]; then
+                    deactivate 1> /dev/null 2> /dev/null
+                    MNIST_DEV=NONE
+                fi
+
+                if [[ ${MNIST_DEV} == "NONE" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                    MNIST_DEV=API
+                fi
+                
+                pip freeze --exclude-editable > ${PROJECT_ROOT}/packages/api/requirements.txt
+                
+                deactivate 1> /dev/null 2> /dev/null
+                if [[ ${_CURRENT_DEV} == "PUBLISH" ]]; then
+                    source ${PROJECT_ROOT}/dev/publish-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "API" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "DNN" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                fi
+                MNIST_DEV=${_CURRENT_DEV}
+            elif [[ ${1} == "d" || ${1} == "dnn" ]]; then
+                _CURRENT_DEV=${MNIST_DEV}
+                if [[ ${MNIST_DEV} != "NONE" && ${MNIST_DEV} != "DNN" ]]; then
+                    deactivate 1> /dev/null 2> /dev/null
+                    MNIST_DEV=NONE
+                fi
+
+                if [[ ${MNIST_DEV} == "NONE" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                    MNIST_DEV=DNN
+                fi
+                
+                pip freeze --exclude-editable > ${PROJECT_ROOT}/packages/dnn/requirements.txt
+                
+                deactivate 1> /dev/null 2> /dev/null
+                if [[ ${_CURRENT_DEV} == "PUBLISH" ]]; then
+                    source ${PROJECT_ROOT}/dev/publish-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "API" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "DNN" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                fi
+                MNIST_DEV=${_CURRENT_DEV}
+            elif [[ ${1} == "h" || ${1} == "help" ]]; then
+                echo -e "\e[1mPurpose:\e[0m"
+                echo -e "  Update the current libraries enlisted in selected virtual environment into requirements.txt"
+                echo -e ""
+                echo -e "\e[1mUsage:\e[0m"
+                echo -e "  \e[35mupdate_package \e[3m\e[33m<option>\e[0m"
+                echo -e ""
+                echo -e "\e[1mOptions:\e[0m"
+                echo -e "  \e[3m\e[33ma\e[0m, \e[3m\e[33mapi\e[0m\t\tUpdate packages/api/requirements.txt to current libraries installed in mnist-api-venv."
+                echo -e "  \e[3m\e[33md\e[0m, \e[3m\e[33mdnn\e[0m\t\tUpdate packages/dnn/requirements.txt to current libraries installed in mnist-dnn-venv."
+                echo -e "  \e[3m\e[33mh\e[0m, \e[3m\e[33mhelp\e[0m\t\tShow this help."
+                return 0
+            else
+                echo -e "\e[31mINVALID ARGUMENT: ${@}\e[0m"
+                echo -e "\e[33mPlease check \e[3m'update_package help'\e[0m\e[33m for the usage."
+                return 1
+            fi
+        else
+            echo -e "\e[31mINVALID ARGUMENT: ${@}\e[0m"
+            echo -e "\e[33mPlease check \e[3m'update_package help'\e[0m\e[33m for the usage."
+            return 1
+        fi
+    }
+
     export -f enter
+    export -f status
+    export -f update_package
 }
 
 # argument parsing 
