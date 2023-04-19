@@ -187,8 +187,90 @@ set_alias () {
         fi
     }
 
+    update_package () {
+        if [[ ${OS} == "Windows" ]]; then
+            _PATH_TO_ACTIVATE="Scripts"
+        else
+            _PATH_TO_ACTIVATE="bin"
+        fi
+
+        if [[ ${#} -eq 0 ]]; then
+            echo -e "\e[31mINVALID ARGUMENT: Please check \e[3m'update_package help'\e[0m\e[31m for the usage.\e[0m"
+            return 1
+        elif [[ ${#} -eq 1 ]]; then
+            if [[ ${1} == "a" || ${1} == "api" ]]; then
+                _CURRENT_DEV=${MNIST_DEV}
+                if [[ ${MNIST_DEV} != "NONE" && ${MNIST_DEV} != "API" ]]; then
+                    deactivate 1> /dev/null 2> /dev/null
+                    MNIST_DEV=NONE
+                fi
+
+                if [[ ${MNIST_DEV} == "NONE" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                    MNIST_DEV=API
+                fi
+                
+                pip freeze --exclude-editable > ${PROJECT_ROOT}/packages/api/requirements.txt
+                
+                deactivate 1> /dev/null 2> /dev/null
+                if [[ ${_CURRENT_DEV} == "PUBLISH" ]]; then
+                    source ${PROJECT_ROOT}/dev/publish-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "API" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "DNN" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                fi
+                MNIST_DEV=${_CURRENT_DEV}
+            elif [[ ${1} == "d" || ${1} == "dnn" ]]; then
+                _CURRENT_DEV=${MNIST_DEV}
+                if [[ ${MNIST_DEV} != "NONE" && ${MNIST_DEV} != "DNN" ]]; then
+                    deactivate 1> /dev/null 2> /dev/null
+                    MNIST_DEV=NONE
+                fi
+
+                if [[ ${MNIST_DEV} == "NONE" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                    MNIST_DEV=DNN
+                fi
+                
+                pip freeze --exclude-editable > ${PROJECT_ROOT}/packages/dnn/requirements.txt
+                
+                deactivate 1> /dev/null 2> /dev/null
+                if [[ ${_CURRENT_DEV} == "PUBLISH" ]]; then
+                    source ${PROJECT_ROOT}/dev/publish-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "API" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-api-venv/${_PATH_TO_ACTIVATE}/activate
+                elif [[ ${_CURRENT_DEV} == "DNN" ]]; then
+                    source ${PROJECT_ROOT}/dev/mnist-dnn-venv/${_PATH_TO_ACTIVATE}/activate
+                fi
+                MNIST_DEV=${_CURRENT_DEV}
+            elif [[ ${1} == "h" || ${1} == "help" ]]; then
+                echo -e "\e[1mPurpose:\e[0m"
+                echo -e "  Update the current libraries enlisted in selected virtual environment into requirements.txt"
+                echo -e ""
+                echo -e "\e[1mUsage:\e[0m"
+                echo -e "  \e[35mupdate_package \e[3m\e[33m<option>\e[0m"
+                echo -e ""
+                echo -e "\e[1mOptions:\e[0m"
+                echo -e "  \e[3m\e[33ma\e[0m, \e[3m\e[33mapi\e[0m\t\tUpdate packages/api/requirements.txt to current libraries installed in mnist-api-venv."
+                echo -e "  \e[3m\e[33md\e[0m, \e[3m\e[33mdnn\e[0m\t\tUpdate packages/dnn/requirements.txt to current libraries installed in mnist-dnn-venv."
+                echo -e "  \e[3m\e[33mh\e[0m, \e[3m\e[33mhelp\e[0m\t\tShow this help."
+                return 0
+            else
+                echo -e "\e[31mINVALID ARGUMENT: ${@}\e[0m"
+                echo -e "\e[33mPlease check \e[3m'update_package help'\e[0m\e[33m for the usage."
+                return 1
+            fi
+        else
+            echo -e "\e[31mINVALID ARGUMENT: ${@}\e[0m"
+            echo -e "\e[33mPlease check \e[3m'update_package help'\e[0m\e[33m for the usage."
+            return 1
+        fi
+    }
+
     export -f enter
     export -f status
+    export -f update_package
 }
 
 # argument parsing 
