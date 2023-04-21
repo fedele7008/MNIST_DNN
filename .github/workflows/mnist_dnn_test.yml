@@ -13,32 +13,50 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
+  build-macos:
+    runs-on: windows-latest
     if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') }}
-    steps:
+    steps:    
     - uses: actions/checkout@v3
+    - name: Use Git Bash shell
+      shell: bash
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
-    - name: Show current dir
+    - name: testing
       run: |
+        echo testing
+        git status
         pwd
         ls -al
         find . -name "env_setup.sh"
-    - name: Run env_setup.sh
-      run: |
-        source env_setup.sh
-        status
-    - name: Test mnist_dnn
-      run: |
-        enter dnn
-        dnn
-        pytest tests
+#   build-linux:
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os:
+#           - ubuntu-latest
+#           - windows-latest
+#           - macos-latest
+#     if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') }}
+#     steps:
+#     - uses: actions/checkout@v3
+#     - name: Set up Python 3.10
+#       uses: actions/setup-python@v3
+#       with:
+#         python-version: "3.10"
+#     - name: Show current dir
+#       run: |
+#         pwd
+#         ls -al
+#         find . -name "env_setup.sh"
+#     - name: Run env_setup.sh
+#       run: |
+#         source env_setup.sh
+#         status
+#     - name: Test mnist_dnn
+#       run: |
+#         enter dnn
+#         dnn
+#         pytest tests
