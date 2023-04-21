@@ -19,8 +19,8 @@ jobs:
         python-version: "3.10"
     - name: Run env_setup.sh
       run: |
-        python -V
-        which python
+        source env_setup.sh --python-version python
+        status
     - name: Test mnist_dnn
       run: |
         enter dnn
