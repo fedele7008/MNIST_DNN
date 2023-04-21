@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ 'main' ]
 jobs:
-  build-tests:
+  build-tests-dnn:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -18,14 +18,56 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
+      id: cp310
       with:
         python-version: '3.10'
         cache: 'pip'
-    - name: Run build test - mnist_dnn
+        cache-dependency-path: 'packages/dnn/requirements.txt'
+    - name: Install dependencies for mnist_dnn package
       run: |
-        echo -en "\e[36mINSTALLING REQUIRED PACKAGES --- \e[0m"
-        pip install -r 'packages/api/requirements.txt' 1> /dev/null 2> /dev/null
-        pip install -r 'packages/dnn/requirements.txt' 1> /dev/null 2> /dev/null
-        echo -e "\e[32mDone\e[0m"
-        echo -e "\e[36mRUNNING 'mnist_dnn' TESTS\e[0m"
-        pytest packages/dnn/tests
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -r 'packages/dnn/requirements.txt'
+    - name: Lint mnist_dnn package
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 packages/dnn/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 packages/dnn/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test mnist_dnn package
+      run: pytest packages/dnn/tests
+    - name: Check cache hit
+      run: echo 'Cache hit --- ${{ steps.cp310.outputs.cache-hit }}'
+  build-tests-api:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') && !contains(github.event.head_commit.message, 'DOP-') }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      id: cp330
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+        cache-dependency-path: 'packages/api/requirements.txt'
+    - name: Install dependencies for mnist_dnn_api package
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -r 'packages/api/requirements.txt'
+    - name: Lint mnist_dnn_api package
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 packages/api/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 packages/api/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test mnist_dnn_api package
+      run: pytest packages/api/tests
+    - name: Check cache hit
+      run: echo 'Cache hit --- ${{ steps.cp330.outputs.cache-hit }}'
