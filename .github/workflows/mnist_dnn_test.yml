@@ -20,6 +20,7 @@ jobs:
     - name: Run env_setup.sh
       run: |
         echo testing python3.10
+        alias python3.10=python3
         python3.10 -V
         which python3.10
         # source env_setup.sh
