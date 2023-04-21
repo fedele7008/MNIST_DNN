@@ -23,8 +23,9 @@ jobs:
         cache: 'pip'
     - name: Run build test - mnist_dnn
       run: |
-        echo -e "\e[36mINSTALLING REQUIRED PACKAGES\e[0m"
+        echo -en "\e[36mINSTALLING REQUIRED PACKAGES --- \e[0m"
         pip install -r 'packages/api/requirements.txt' 1> /dev/null 2> /dev/null
         pip install -r 'packages/dnn/requirements.txt' 1> /dev/null 2> /dev/null
+        echo -e "\e[32mDone\e[0m"
         echo -e "\e[36mRUNNING 'mnist_dnn' TESTS\e[0m"
         pytest packages/dnn/tests
