@@ -21,10 +21,20 @@ INSTRUCTION=False
 SETTINGS_FILE="settings.txt"
 INITIAL_DIR=$(pwd)
 
+IS_PYTHON_VERSION_SPECIFIED=False
+# check python flag
+if [[ ${#} -ge 2 ]]; then
+    if [[ ${1} == "--python-version" ]]; then
+        PYTHON_VERSION_SPECIFIED=${2}
+        IS_PYTHON_VERSION_SPECIFIED=True
+        shift 2
+    fi
+fi
+
 # validate configurable os
 if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
     OS="${OSTYPE}"
-    VERIFIED_OS="False"
+    VERIFIED_OS="True"
 elif [[ "${OSTYPE}" == "darwin"* ]]; then
     OS="MacOS"
     VERIFIED_OS="True"
@@ -437,7 +447,11 @@ fi
 
 # Search for python executable
 # Python version ordering is from most prefered version to least prefered version
-PYTHON_LIST=('python3.10' 'python3.9' 'python3.8' 'python3' 'python3.11' 'python3.7' 'python3.6' 'python')
+if [[ ${IS_PYTHON_VERSION_SPECIFIED} == True ]]; then
+    PYTHON_LIST=("${PYTHON_VERSION_SPECIFIED}")
+else
+    PYTHON_LIST=('python3.10' 'python3.9' 'python3.8' 'python3' 'python3.11' 'python3.7' 'python3.6' 'python')
+fi
 _ALTERNATIVE=False
 _FOUND=False
 
