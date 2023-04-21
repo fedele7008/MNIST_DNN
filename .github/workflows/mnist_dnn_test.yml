@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  build-macos:
+  build-windows:
     runs-on: windows-latest
     if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') }}
     defaults:
@@ -21,8 +21,8 @@ jobs:
       run: |
         pip install virtualenv 1> /dev/null 2> /dev/null
         source env_setup.sh --python-version python
-        enter dnn
-        dnn
+        source dev/mnist-dnn-venv/Scripts/activate
+        cd packages/dnn/
         pytest tests
-        root
+        cd ../../
         
