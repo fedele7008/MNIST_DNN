@@ -1,13 +1,16 @@
 name: MNIST DNN Build Test
 on:
   push:
-    branches: [ "main" ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ 'main' ]
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') }}
+  build-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    if: ${{ !contains(github.event.head_commit.message, '** SKIP TEST BUILD **') && !contains(github.event.head_commit.message, 'DOP-') }}
     defaults:
       run:
         shell: bash
@@ -16,13 +19,12 @@ jobs:
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
+        python-version: '3.10'
+        cache: 'pip'
     - name: Run build test - mnist_dnn
       run: |
-        pip install virtualenv 1> /dev/null 2> /dev/null
-        source env_setup.sh --python-version python
-        source dev/mnist-dnn-venv/Scripts/activate
-        cd packages/dnn/
-        pytest tests
-        cd ../../
-        
+        echo -e "\e[36mINSTALLING REQUIRED PACKAGES\e[0m"
+        pip install -r 'packages/api/requirements.txt' 1> /dev/null 2> /dev/null
+        pip install -r 'packages/dnn/requirements.txt' 1> /dev/null 2> /dev/null
+        echo -e "\e[36mRUNNING 'mnist_dnn' TESTS\e[0m"
+        pytest packages/dnn/tests
