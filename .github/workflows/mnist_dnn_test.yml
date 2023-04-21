@@ -19,6 +19,7 @@ jobs:
         python-version: "3.10"
     - name: Run env_setup.sh
       run: |
+        pip install virtualenv
         source env_setup.sh --python-version python
         status
     - name: Test mnist_dnn
