@@ -1,3 +1,14 @@
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+# Used in case if we use mnist_dnn as non-editable install
+pythonpath = "src"
+log_cli = true
+log_cli_level = "DEBUG"
+log_cli_date_format= "%Y-%m-%d %H:%M:%S"
+log_cli_format = "%(levelname)-8s %(asctime)s %(name)s::%(filename)s:%(funcName)s:%(lineno)d: %(message)s"
