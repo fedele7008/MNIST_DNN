@@ -26,5 +26,5 @@ model.add(Dense(nodes = 128, input_nodes = 28 * 28, activation = 'relu'))
 model.add(Dense(nodes = 64, activation = 'relu'))
 model.add(Dense(nodes = 10, activation = 'softmax'))
 
-model.compile(loss = 'categorical_crossentropy', optimizer = 'GD')
+model.compile(loss = 'categorical_crossentropy', optimizer = 'gradient_descent')
 model.train(train_data, epochs = 5, batch_size = 32)
