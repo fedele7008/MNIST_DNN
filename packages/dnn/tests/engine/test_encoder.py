@@ -1,7 +1,7 @@
 import pytest, sys, logging, time
 import numpy as np
 
-import mnist_dnn.engine.encoder as encoder
+import mnist_dnn.core.encoder as encoder
 
 class TestEncoder():
 
