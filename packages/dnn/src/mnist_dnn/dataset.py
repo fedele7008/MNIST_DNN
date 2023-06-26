@@ -22,21 +22,9 @@ class MNIST():
     def load_data():
         """
         Load MNIST training and testing datasets
-        
-        Requires:
-            * 'mnist_train.csv' must be in 'mnist_dnn/data'
-            * 'mnist_test.csv' must be in 'mnist_dnn/data'
-
-        Note: 
-            * 'mnist_train.csv' contains 60000 image data consists of 60000 rows
-                and 785 columns. First column is label, and the rest are pixel 
-                data (28px * 28px) in greyscale (value from 0 to 255) values.
-            * 'mnist_test.csv' contains 10000 image data consists of 10000 rows 
-                and 785 columns. First column is label, and the rest are pixel 
-                data (28px * 28px) in greyscale (value from 0 to 255) values.
 
         Args: 
-            <No argument>
+            <None>
             
         Return:
             ((x_train_data, y_train_data), (x_test_data, y_test_data))
@@ -44,6 +32,18 @@ class MNIST():
             * y_train_data(1D) has dimension of 60000, each row is a label.
             * x_test_data(2D) has dimension of 10000 x 784, each row is an image.
             * y_test_data(1D) has dimension of 10000, each row is a label.
+        
+        Requires:
+            * 'mnist_train.csv' must be in 'mnist_dnn/data'
+            * 'mnist_test.csv' must be in 'mnist_dnn/data'
+        
+        Note: 
+            * 'mnist_train.csv' contains 60000 image data consists of 60000 rows
+                and 785 columns. First column is label, and the rest are pixel 
+                data (28px * 28px) in greyscale (value from 0 to 255) values.
+            * 'mnist_test.csv' contains 10000 image data consists of 10000 rows 
+                and 785 columns. First column is label, and the rest are pixel 
+                data (28px * 28px) in greyscale (value from 0 to 255) values.
         """
 
         # Read MNIST Datasets
