@@ -10,4 +10,4 @@ class ReLu():
 
     @staticmethod
     def derivative(x: np.ndarray) -> np.ndarray:
-        return np.where(x > 0, 1, 0)
+        return np.diag(np.where(x > 0, 1, 0))

@@ -12,5 +12,14 @@ class SoftMax():
     @staticmethod
     def derivative(x: np.ndarray) -> np.ndarray:
         softmax_output = SoftMax.function(x)
-        return softmax_output * (1 - softmax_output)
-    
+        n = len(x)
+        jacobian = np.zeros((n, n))
+
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    jacobian[i, j] = softmax_output[i] * (1 - softmax_output[i])
+                else:
+                    jacobian[i, j] = -softmax_output[i] * softmax_output[j]
+
+        return jacobian

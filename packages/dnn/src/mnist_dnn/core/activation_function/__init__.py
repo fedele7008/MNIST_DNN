@@ -9,7 +9,7 @@ __version__ = '0.1.1'
 from mnist_dnn.core.activation_function.relu import ReLu
 from mnist_dnn.core.activation_function.softmax import SoftMax
 
-loss_function = {
+activation_function = {
     'relu': (ReLu.function, ReLu.derivative),
     'softmax': (SoftMax.function, SoftMax.derivative)
 }

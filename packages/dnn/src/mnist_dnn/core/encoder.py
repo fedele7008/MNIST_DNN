@@ -34,5 +34,10 @@ class One_hot():
         Note:
             * 'size' is defaulted to 10.
         """
+
+        # Verify if 'all' elements of 'y' are less than the size
+        if np.max(y) >= size:
+            raise ValueError('All elements of y must not exceed the size of the one-hot vector.')
+
         return np.array([np.eye(size)[i] for i in y])
     
