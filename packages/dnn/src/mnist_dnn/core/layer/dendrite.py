@@ -24,6 +24,7 @@ class _Dendrite(_Layer):
         * 'delta_weights' denote change of weights when update
         * 'delta_bias' denote change of bias when update
         * 'learning_rate' denote the Learning rate of deltas when update
+        * 'optimizer' denotes the optimizer of the layer
         * 'is_compiled' denotes whether the layer is compiled or not
     """
 
@@ -53,12 +54,13 @@ class _Dendrite(_Layer):
         self.delta_weights = None
         self.delta_bias = None
         self.learning_rate = None
+        self.optimizer = None
 
         # Additional Indicators
         self._is_compiled = False
 
     
-    def compile(self, input_size: int, output_size: int, learning_rate: float) -> None:
+    def compile(self, input_size: int, optimizer: str, learning_rate: float) -> None:
         pass
 
 
