@@ -13,7 +13,7 @@ def requirements():
 
 setuptools.setup(
     name='mnist-dnn',
-    version='0.1.1a11',
+    version='0.1.2',
     author='John Yoon',
     author_email='fedelejohn7008@gmail.com',
     description='Deep Neural Network from Scratch with MNIST dataset',
