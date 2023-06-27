@@ -3,6 +3,7 @@ activation module defines _activation layer class.
 """
 
 import numpy as np
+from numba import jit
 
 from mnist_dnn.core.layer.base import _Layer
 from mnist_dnn.core.activation_function import activation_function as activation_function_collection
@@ -79,7 +80,7 @@ class _Activation(_Layer):
         if self._is_compiled is False:
             raise RuntimeError('layer is not compiled yet')
         
-        return dY * self.activation_derivative(self.input)
+        return dY @ self.activation_derivative(self.input)
 
 
     def update(self) -> None:

@@ -3,6 +3,7 @@ model module defines Sequential neural network framework that can store layers
 """
 
 import numpy as np
+from numba import jit
 
 from mnist_dnn.layer import Dense
 from mnist_dnn.core.encoder import One_hot
@@ -87,9 +88,9 @@ class Sequential():
                         output = layer.forward(output)
 
                     # print(output)
-                    error = self.loss_function(output, y)
+                    error = self.loss_function(y, output)
                     # print(error)
-                    dy = self.loss_derivative(output, y)
+                    dy = self.loss_derivative(y, output)
 
                     for layer in reversed(self.layers):
                         dy = layer.backward(dy)
@@ -99,9 +100,10 @@ class Sequential():
 
 
     def test(self, test_data):
+        test_data_x, test_data_y = test_data
         total = 0
         correct = 0
-        for x, y in test_data:
+        for x, y in zip(test_data_x, test_data_y):
             total += 1
             output = x
             for layer in self.layers:

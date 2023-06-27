@@ -3,6 +3,7 @@ Layer module provides Dense layer for user to setup.
 """
 
 import numpy as np
+from numba import jit
 
 import mnist_dnn.core.layer as core_layer
 

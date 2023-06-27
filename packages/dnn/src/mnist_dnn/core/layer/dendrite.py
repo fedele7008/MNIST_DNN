@@ -3,6 +3,7 @@ dendrite module defines _dendrite layer class.
 """
 
 import numpy as np
+from numba import jit
 
 from mnist_dnn.core.layer.base import _Layer
 from mnist_dnn.core.optimizer import optimizers

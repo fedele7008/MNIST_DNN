@@ -22,8 +22,7 @@ print(f"test data size: {test_data[0].shape[0]}")
 
 # run
 model = Sequential()
-model.add(Dense(nodes = 128, input_nodes = 28 * 28, activation = 'relu'))
-# model.add(Dense(nodes = 64, activation = 'relu'))
+model.add(Dense(nodes = 32, input_nodes = 28 * 28, activation = 'relu'))
 model.add(Dense(nodes = 10, activation = 'softmax'))
 
 start = timer()
@@ -31,9 +30,9 @@ model.compile(loss = 'categorical_crossentropy', optimizer = 'gradient_descent')
 print("Compile time: ", timer() - start)
 
 start = timer()
-model.train(train_data, epochs = 2, batch_size = 1)
+model.train(train_data, epochs = 1, batch_size = 2)
 print("train time: ", timer() - start)
 
-# start = timer()
-# model.test(test_data)
-# print("test time: ", timer() - start)
+start = timer()
+model.test(test_data)
+print("test time: ", timer() - start)
