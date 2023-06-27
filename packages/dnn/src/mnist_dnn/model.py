@@ -134,7 +134,7 @@ class Sequential():
             output = layer.forward(output)
 
         for i in range(len(output)):
-            print(f'{i}: {output[i] * 100} %')
+            print(f'{i}: {round(output[i] * 100)} %')
 
         prediction = np.argmax(output)
         print(f'Prediction: {prediction}')
