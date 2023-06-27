@@ -1,6 +1,7 @@
 """
 model module defines Sequential neural network framework that can store layers
 """
+import math
 
 import numpy as np
 from numba import jit
@@ -74,13 +75,17 @@ class Sequential():
         # TODO: assert train_data to be approporiate form (compare with input layer)
         # TODO: raise exception if layer is empty or loss is None or optimizer is None
         train_data_x, train_data_y = train_data
-        for _ in range(epochs):
+        for ep in range(epochs):
+            nbatch = 0
             for batch in range(0, len(train_data_x), batch_size):
+                nbatch += 1
                 batch_x = train_data_x[batch:batch+batch_size]
                 batch_y = train_data_y[batch:batch+batch_size]
 
                 if one_hot:
                     batch_y = One_hot.encode(batch_y, self.layers[-1].size)
+
+                error_total = 0
 
                 for x, y in zip(batch_x, batch_y):
                     output = x
@@ -88,13 +93,21 @@ class Sequential():
                         output = layer.forward(output)
 
                     # print(output)
-                    error = self.loss_function(y, output)
+                    error_total += self.loss_function(y, output)
                     # print(error)
                     dy = self.loss_derivative(y, output)
 
                     for layer in reversed(self.layers):
                         dy = layer.backward(dy)
                 
+                print('Epoch: {}/{}, Batch: {}/{}, Error: {:0.2f} %'.format(
+                    ep + 1,
+                    epochs,
+                    nbatch,
+                    math.floor(len(train_data_x)/batch_size),
+                    error_total * 100 / batch_size
+                ))
+
                 for layer in self.layers:
                     layer.update()
 
