@@ -5,7 +5,7 @@ model module defines Sequential neural network framework that can store layers
 from mnist_dnn.layer import Dense
 from mnist_dnn.core.encoder import One_hot
 from mnist_dnn.core.loss_function import loss_function
-from mnist_dnn.core.optimizer import optimizer_function
+from mnist_dnn.core.optimizer import optimizers
 
 
 class Sequential():
@@ -61,7 +61,7 @@ class Sequential():
             raise ValueError("Invalid loss function")
         
         # Verify if optimizer is valid
-        if optimizer not in optimizer_function:
+        if optimizer not in optimizers:
             raise ValueError("Invalid optimizer")
         
         # Verify if first layer has input size set
@@ -71,7 +71,7 @@ class Sequential():
         
         # Set loss function and optimizer
         self.loss_function, self.loss_function_derivative = loss_function[loss]
-        self.optimizer = optimizer_function[optimizer]
+        self.optimizer = optimizers[optimizer]
         
         # Compile all layers
         for layer in self.layers:

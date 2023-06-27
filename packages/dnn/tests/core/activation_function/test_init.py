@@ -61,3 +61,11 @@ class TestActivationFunctionInit():
                               [-0.02064299, -0.05611347, -0.15253222,  0.22928869]])
         
         assert np.allclose(df(df_input), df_output)
+
+
+    def test_init_exception(self):
+        logging.debug(sys._getframe(0).f_code.co_name)
+        logging.info('Testing activation_function collection exception')
+        
+        with pytest.raises(KeyError):
+            activation_function['invalid_activation']

@@ -5,6 +5,7 @@ activation module defines _activation layer class.
 import numpy as np
 
 from mnist_dnn.core.layer.base import _Layer
+from mnist_dnn.core.activation_function import activation_function as activation_function_collection
 
 
 class _Activation(_Layer):
@@ -52,18 +53,35 @@ class _Activation(_Layer):
         self._is_compiled = False
 
 
-    def compile(self, input_size: int, output_size: int, activation_function: str) -> None:
-        pass
+    def compile(self, input_size: int, activation_function: str, *args, **kwargs) -> None:
+        if input_size < 1:
+            raise ValueError('input size must be greater than 0')
+
+        if activation_function not in activation_function_collection:
+            raise ValueError('activation function named, {} is not found'.format(activation_function))
+        
+        self.activation_function, self.activation_derivative = activation_function_collection[activation_function]
+        
+        self._is_compiled = True
 
 
     def forward(self, X: np.ndarray) -> np.ndarray:
-        pass
+        if self._is_compiled is False:
+            raise RuntimeError('layer is not compiled yet')
+        
+        self.input = X
+        self.output = self.activation_function(X)
+
+        return self.output
 
 
     def backward(self, dY: np.ndarray) -> np.ndarray:
-        pass
+        if self._is_compiled is False:
+            raise RuntimeError('layer is not compiled yet')
+        
+        return dY * self.activation_derivative(self.input)
 
 
     def update(self) -> None:
-        pass
+        pass # Nothing to update in this layer
 
