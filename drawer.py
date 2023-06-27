@@ -1,5 +1,24 @@
 import pygame
-import pygame.gfxdraw
+import os
+import numpy as np
+from mnist_dnn.dataset import MNIST
+from mnist_dnn.layer import Dense
+from mnist_dnn.model import Sequential
+from mnist_dnn.util.tool import Display
+train_data, test_data = MNIST.load_data()
+model = Sequential()
+model.add(Dense(nodes = 32, input_nodes = 28 * 28, activation = 'relu'))
+model.add(Dense(nodes = 10, activation = 'softmax'))
+model.compile(loss = 'categorical_crossentropy', optimizer = 'gradient_descent')
+model.train(train_data, epochs = 1, batch_size = 2)
+model.test(test_data)
+
+def clear_terminal():
+    # Check the operating system and use the appropriate command to clear the terminal
+    if os.name == 'nt':  # For Windows
+        os.system('cls')
+    else:  # For Unix/Linux/MacOS
+        os.system('clear')
 
 # Canvas settings
 canvas_width, canvas_height = 560, 560
@@ -37,35 +56,33 @@ while running:
                 last_pos = None
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                # Divide canvas into boxes and evaluate blackness
-                l = []
-                for row in range(box_rows):
-                    for col in range(box_cols):
-                        box_rect = pygame.Rect(
-                            col * box_size, row * box_size, box_size, box_size
-                        )
-                        sub_surface = canvas.subsurface(box_rect)
-                        blackness = sum(pygame.transform.average_color(sub_surface)[:3])
-                        gray_value = int(255 - (blackness / (255 * 3)) * 255)
-                        l.append(gray_value)
-                        # print(f"Box ({row}, {col}): Blackness = {gray_value}")
-
-                print('np.array([', end='')
-                for i in range(len(l)):
-                    print(f'{l[i]}', end='')
-                    if i < len(l) - 1:
-                        print(', ', end='')
-                print('])')
-
-
-
+                pass
+            elif event.key == pygame.K_r:
+                # Clear the canvas when 'R' is pressed
+                canvas.fill(background_color)
     
+    if drawing:
+        # Divide canvas into boxes and evaluate blackness
+        l = []
+        for row in range(box_rows):
+            for col in range(box_cols):
+                box_rect = pygame.Rect(
+                    col * box_size, row * box_size, box_size, box_size
+                )
+                sub_surface = canvas.subsurface(box_rect)
+                blackness = sum(pygame.transform.average_color(sub_surface)[:3])
+                gray_value = int(255 - (blackness / (255 * 3)) * 255)
+                l.append(gray_value)
+
+        l = np.array(l)
+        clear_terminal()
+        model.predict(l)
 
     # Drawing on canvas
     if drawing:
         current_pos = pygame.mouse.get_pos()
         if last_pos is not None:
-            pygame.draw.line(canvas, (0, 0, 0), last_pos, current_pos, 20)
+            pygame.draw.line(canvas, (0, 0, 0), last_pos, current_pos, 35)
         last_pos = current_pos
     else:
         last_pos = None
