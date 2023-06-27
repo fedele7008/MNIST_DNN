@@ -100,12 +100,12 @@ class Sequential():
                     for layer in reversed(self.layers):
                         dy = layer.backward(dy)
                 
-                print('Epoch: {}/{}, Batch: {}/{}, Error: {:0.2f} %'.format(
+                print('Epoch: {}/{}, Batch: {}/{}, Error: {:0.2f}'.format(
                     ep + 1,
                     epochs,
                     nbatch,
                     math.floor(len(train_data_x)/batch_size),
-                    error_total * 100 / batch_size
+                    error_total / batch_size
                 ))
 
                 for layer in self.layers:
@@ -127,3 +127,14 @@ class Sequential():
                     correct += 1
 
         print(f"Accuracy: {correct/total}")
+
+    def predict(self, image):
+        output = np.array(1/255 * image, dtype=np.float64)
+        for layer in self.layers:
+            output = layer.forward(output)
+
+        for i in range(len(output)):
+            print(f'{i}: {output[i] * 100} %')
+
+        prediction = np.argmax(output)
+        print(f'Prediction: {prediction}')
