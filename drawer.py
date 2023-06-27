@@ -1,3 +1,13 @@
+"""
+Quick demo:
+
+1. Create a virtual python environment `python3.10 -m venv <venv_name>`.
+2. Activate the virtual environment `source <venv_name>/bin/activate`. (Mac/Linux)
+3. run `pip install pygame`
+4. run `pip install mnist-dnn`
+4. run this file
+"""
+
 import pygame
 import os
 import numpy as np
