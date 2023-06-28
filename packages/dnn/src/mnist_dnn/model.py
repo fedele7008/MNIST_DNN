@@ -7,7 +7,7 @@ import numpy as np
 from numba import jit
 
 from mnist_dnn.layer import Dense
-from mnist_dnn.core.encoder import One_hot
+from mnist_dnn.core.encoder import One_hot, ImageModifications
 from mnist_dnn.core.loss_function import loss_function
 
 
@@ -75,6 +75,7 @@ class Sequential():
         # TODO: assert train_data to be approporiate form (compare with input layer)
         # TODO: raise exception if layer is empty or loss is None or optimizer is None
         train_data_x, train_data_y = train_data
+        train_data_x = ImageModifications.apply_random_transformations(train_data_x)
         for ep in range(epochs):
             nbatch = 0
             for batch in range(0, len(train_data_x), batch_size):

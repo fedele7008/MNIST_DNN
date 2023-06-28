@@ -17,10 +17,10 @@ from mnist_dnn.model import Sequential
 from mnist_dnn.util.tool import Display
 train_data, test_data = MNIST.load_data()
 model = Sequential()
-model.add(Dense(nodes = 32, input_nodes = 28 * 28, activation = 'relu'))
+model.add(Dense(nodes = 100, input_nodes = 28 * 28, activation = 'relu'))
 model.add(Dense(nodes = 10, activation = 'softmax'))
-model.compile(loss = 'categorical_crossentropy', optimizer = 'gradient_descent')
-model.train(train_data, epochs = 1, batch_size = 2)
+model.compile(loss = 'categorical_crossentropy', optimizer = 'gradient_descent', learning_rate = 0.22)
+model.train(train_data, epochs = 1, batch_size = 100)
 model.test(test_data)
 
 def clear_terminal():
