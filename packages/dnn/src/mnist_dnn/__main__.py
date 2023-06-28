@@ -12,14 +12,14 @@ print("Loaded time: ", timer() - start)
 # print data size
 print(f"train data size: {train_data[0].shape[0]}")
 print(f"test data size: {test_data[0].shape[0]}")
-
+'''
 # print 50 sample images
-# image, label = train_data
-# sample = []
-# for i in range(50):
-#     sample.append((f'Number: {label[i]}', image[i]))
-# Display.show_img(sample)
-
+image, label = train_data
+sample = []
+for i in range(50):
+    sample.append((f'Number: {label[i]}', image[i]))
+Display.show_img(sample)
+'''
 # run
 model = Sequential()
 model.add(Dense(nodes = 32, input_nodes = 28 * 28, activation = 'relu'))

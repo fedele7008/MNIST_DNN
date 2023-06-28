@@ -9,6 +9,7 @@ llvmlite==0.39.1
 matplotlib==3.6.3
 numba==0.56.4
 numpy==1.23.5
+opencv-python==4.7.0.72
 packaging==23.0
 pandas==1.5.2
 Pillow==9.4.0
