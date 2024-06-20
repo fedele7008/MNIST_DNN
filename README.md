@@ -70,6 +70,7 @@ The project uses following packages:
 * pandas
 * matplotlib
 * flask
+* pytest
 
 # <div id="license">License</div>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
